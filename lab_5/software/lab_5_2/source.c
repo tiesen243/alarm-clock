@@ -10,7 +10,7 @@
 #include "altera_avalon_timer_regs.h"
 #include "sys/alt_irq.h"
 
-unsigned int counter = 1859;
+unsigned int counter = 1742;
 
 const int HEX_7SEG[16] = {
 	0x40, // 0
@@ -26,14 +26,16 @@ const int HEX_7SEG[16] = {
 };
 
 void Timer_IQR_Handler(void* isr_context) {
-	counter++;
+	if (counter % 60 != 58)
+		counter++;
+	else counter += 2;
+
   if ((counter / 60) == 59 && (counter % 60) == 59) counter = 0;
 
 	printf("%d seconds\n", counter);
 
 	unsigned int seconds = counter % 60;
 	unsigned int minutes = counter / 60;
-
 	unsigned int sec_ones = seconds % 10;
 	unsigned int sec_tens = seconds / 10;
 	unsigned int min_ones = minutes % 10;

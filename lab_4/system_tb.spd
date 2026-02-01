@@ -73,10 +73,6 @@
    type="SYSTEM_VERILOG"
    library="nios2_qsys_0_instruction_master_translator" />
  <file
-   path="system/testbench/system_tb/simulation/submodules/system_lcd_on.v"
-   type="VERILOG"
-   library="lcd_on" />
- <file
    path="system/testbench/system_tb/simulation/submodules/system_jtag_uart_0.v"
    type="VERILOG"
    library="jtag_uart_0" />
@@ -156,14 +152,6 @@
    path="system/testbench/system_tb/simulation/submodules/system_nios2_qsys_0_test_bench.v"
    type="VERILOG"
    library="nios2_qsys_0" />
- <file
-   path="system/testbench/system_tb/simulation/submodules/verbosity_pkg.sv"
-   type="SYSTEM_VERILOG"
-   library="system_inst_lcd_on_external_connection_bfm" />
- <file
-   path="system/testbench/system_tb/simulation/submodules/altera_conduit_bfm.sv"
-   type="SYSTEM_VERILOG"
-   library="system_inst_lcd_on_external_connection_bfm" />
  <file
    path="system/testbench/system_tb/simulation/submodules/verbosity_pkg.sv"
    type="SYSTEM_VERILOG"
