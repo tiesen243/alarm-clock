@@ -10,10 +10,11 @@
 #include "system.h"
 #include <stdio.h>
 
+int counter = 0;
+
 void delay(int a) {
   volatile int i = 0;
-  // while (i < a * 10000)
-  while (i < a * 1000)
+  while (i < a * 100)
     i++;
 }
 
@@ -57,26 +58,21 @@ void lcd_init() {
   command(0x01);
 }
 
-int button_state, prev_button_state, counter = 0;
-
 int main() {
   char data[10] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
 
   lcd_init();
   IOWR_ALTERA_AVALON_PIO_DATA(LCD_ON_BASE, 0x01);
-  IOWR_ALTERA_AVALON_PIO_DATA(LCD_BLON_BASE, 0x01);
-
-  prev_button_state = 0;
-  counter = 0;
+  IOWR_ALTERA_AVALON_PIO_DATA(LCD_BLON_BASE, 0x00);
 
   while (1) {
-    button_state = IORD(BUTTON_BASE, 0);
-    if (button_state && !prev_button_state) {
+    if (IORD(BUTTON_BASE, 0) == 0) {
+      while (IORD(BUTTON_BASE, 0) == 0)
+        ;
       counter++;
       if (counter > 99)
         counter = 0;
     }
-    prev_button_state = button_state;
 
     command(0x02);
     lcd_data(data[counter / 10]);
