@@ -73,6 +73,10 @@
    type="SYSTEM_VERILOG"
    library="nios2_qsys_0_instruction_master_translator" />
  <file
+   path="system/testbench/system_tb/simulation/submodules/system_button.v"
+   type="VERILOG"
+   library="button" />
+ <file
    path="system/testbench/system_tb/simulation/submodules/system_lcd_on.v"
    type="VERILOG"
    library="lcd_on" />
@@ -156,6 +160,14 @@
    path="system/testbench/system_tb/simulation/submodules/system_nios2_qsys_0_test_bench.v"
    type="VERILOG"
    library="nios2_qsys_0" />
+ <file
+   path="system/testbench/system_tb/simulation/submodules/verbosity_pkg.sv"
+   type="SYSTEM_VERILOG"
+   library="system_inst_button_external_connection_bfm" />
+ <file
+   path="system/testbench/system_tb/simulation/submodules/altera_conduit_bfm_0002.sv"
+   type="SYSTEM_VERILOG"
+   library="system_inst_button_external_connection_bfm" />
  <file
    path="system/testbench/system_tb/simulation/submodules/verbosity_pkg.sv"
    type="SYSTEM_VERILOG"

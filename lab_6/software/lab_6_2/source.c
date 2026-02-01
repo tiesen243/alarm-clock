@@ -2,7 +2,7 @@
  * source.c
  *
  *  Created on: Feb 1, 2026
- *  Author: tiesen243
+ *      Author: tiesen243
  */
 
 #include "altera_avalon_pio_regs.h"
@@ -57,21 +57,30 @@ void lcd_init() {
   command(0x01);
 }
 
+int button_state, prev_button_state, counter = 0;
+
 int main() {
   char data[10] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
-  int i;
 
   lcd_init();
   IOWR_ALTERA_AVALON_PIO_DATA(LCD_ON_BASE, 0x01);
   IOWR_ALTERA_AVALON_PIO_DATA(LCD_BLON_BASE, 0x01);
 
+  prev_button_state = 0;
+  counter = 0;
+
   while (1) {
-    for (i = 0; i < 100; i++) {
-      command(0x02);
-      lcd_data(data[i / 10]);
-      lcd_data(data[i % 10]);
-      delay(100);
+    button_state = IORD(BUTTON_BASE, 0);
+    if (button_state && !prev_button_state) {
+      counter++;
+      if (counter > 99)
+        counter = 0;
     }
+    prev_button_state = button_state;
+
+    command(0x02);
+    lcd_data(data[counter / 10]);
+    lcd_data(data[counter % 10]);
   }
 
   return 0;

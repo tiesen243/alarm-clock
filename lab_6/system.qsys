@@ -16,8 +16,16 @@
    {
       datum baseAddress
       {
-         value = "69832";
+         value = "69864";
          type = "String";
+      }
+   }
+   element button
+   {
+      datum _sortIndex
+      {
+         value = "10";
+         type = "int";
       }
    }
    element clk_0
@@ -108,30 +116,6 @@
          type = "int";
       }
    }
-   element lcd_blon.s1
-   {
-      datum baseAddress
-      {
-         value = "69792";
-         type = "String";
-      }
-   }
-   element lcd_d.s1
-   {
-      datum baseAddress
-      {
-         value = "69728";
-         type = "String";
-      }
-   }
-   element lcd_rs.s1
-   {
-      datum baseAddress
-      {
-         value = "69744";
-         type = "String";
-      }
-   }
    element onchip_memory2_0.s1
    {
       datum baseAddress
@@ -144,15 +128,7 @@
    {
       datum baseAddress
       {
-         value = "69760";
-         type = "String";
-      }
-   }
-   element lcd_en.s1
-   {
-      datum baseAddress
-      {
-         value = "69776";
+         value = "69792";
          type = "String";
       }
    }
@@ -160,7 +136,47 @@
    {
       datum baseAddress
       {
+         value = "69840";
+         type = "String";
+      }
+   }
+   element button.s1
+   {
+      datum baseAddress
+      {
+         value = "69744";
+         type = "String";
+      }
+   }
+   element lcd_rs.s1
+   {
+      datum baseAddress
+      {
+         value = "69776";
+         type = "String";
+      }
+   }
+   element lcd_blon.s1
+   {
+      datum baseAddress
+      {
+         value = "69824";
+         type = "String";
+      }
+   }
+   element lcd_en.s1
+   {
+      datum baseAddress
+      {
          value = "69808";
+         type = "String";
+      }
+   }
+   element lcd_d.s1
+   {
+      datum baseAddress
+      {
+         value = "69760";
          type = "String";
       }
    }
@@ -176,10 +192,10 @@
  <parameter name="globalResetBus" value="false" />
  <parameter name="hdlLanguage" value="VERILOG" />
  <parameter name="maxAdditionalLatency" value="1" />
- <parameter name="projectName" value="lab_7.qpf" />
+ <parameter name="projectName" value="lab_6.qpf" />
  <parameter name="sopcBorderPoints" value="false" />
  <parameter name="systemHash" value="1" />
- <parameter name="timeStamp" value="1769925122800" />
+ <parameter name="timeStamp" value="1769929301963" />
  <parameter name="useTestBenchNamingPattern" value="false" />
  <instanceScript></instanceScript>
  <interface name="clk" internal="clk_0.clk_in" type="clock" dir="end" />
@@ -212,6 +228,11 @@
  <interface
    name="lcd_d_external_connection"
    internal="lcd_d.external_connection"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="button_external_connection"
+   internal="button.external_connection"
    type="conduit"
    dir="end" />
  <module kind="clock_source" version="13.0" enabled="1" name="clk_0">
@@ -325,8 +346,8 @@
   <parameter name="tightlyCoupledInstructionMaster1AddrWidth" value="1" />
   <parameter name="tightlyCoupledInstructionMaster2AddrWidth" value="1" />
   <parameter name="tightlyCoupledInstructionMaster3AddrWidth" value="1" />
-  <parameter name="instSlaveMapParam"><![CDATA[<address-map><slave name='onchip_memory2_0.s1' start='0x8000' end='0x10000' /><slave name='nios2_qsys_0.jtag_debug_module' start='0x10800' end='0x11000' /><slave name='lcd_d.s1' start='0x11060' end='0x11070' /><slave name='lcd_rs.s1' start='0x11070' end='0x11080' /><slave name='lcd_rw.s1' start='0x11080' end='0x11090' /><slave name='lcd_en.s1' start='0x11090' end='0x110A0' /><slave name='lcd_blon.s1' start='0x110A0' end='0x110B0' /><slave name='lcd_on.s1' start='0x110B0' end='0x110C0' /><slave name='jtag_uart_0.avalon_jtag_slave' start='0x110C8' end='0x110D0' /></address-map>]]></parameter>
-  <parameter name="dataSlaveMapParam"><![CDATA[<address-map><slave name='onchip_memory2_0.s1' start='0x8000' end='0x10000' /><slave name='nios2_qsys_0.jtag_debug_module' start='0x10800' end='0x11000' /><slave name='lcd_d.s1' start='0x11060' end='0x11070' /><slave name='lcd_rs.s1' start='0x11070' end='0x11080' /><slave name='lcd_rw.s1' start='0x11080' end='0x11090' /><slave name='lcd_en.s1' start='0x11090' end='0x110A0' /><slave name='lcd_blon.s1' start='0x110A0' end='0x110B0' /><slave name='lcd_on.s1' start='0x110B0' end='0x110C0' /><slave name='jtag_uart_0.avalon_jtag_slave' start='0x110C8' end='0x110D0' /></address-map>]]></parameter>
+  <parameter name="instSlaveMapParam"><![CDATA[<address-map><slave name='onchip_memory2_0.s1' start='0x8000' end='0x10000' /><slave name='nios2_qsys_0.jtag_debug_module' start='0x10800' end='0x11000' /><slave name='button.s1' start='0x11070' end='0x11080' /><slave name='lcd_d.s1' start='0x11080' end='0x11090' /><slave name='lcd_rs.s1' start='0x11090' end='0x110A0' /><slave name='lcd_rw.s1' start='0x110A0' end='0x110B0' /><slave name='lcd_en.s1' start='0x110B0' end='0x110C0' /><slave name='lcd_blon.s1' start='0x110C0' end='0x110D0' /><slave name='lcd_on.s1' start='0x110D0' end='0x110E0' /><slave name='jtag_uart_0.avalon_jtag_slave' start='0x110E8' end='0x110F0' /></address-map>]]></parameter>
+  <parameter name="dataSlaveMapParam"><![CDATA[<address-map><slave name='onchip_memory2_0.s1' start='0x8000' end='0x10000' /><slave name='nios2_qsys_0.jtag_debug_module' start='0x10800' end='0x11000' /><slave name='button.s1' start='0x11070' end='0x11080' /><slave name='lcd_d.s1' start='0x11080' end='0x11090' /><slave name='lcd_rs.s1' start='0x11090' end='0x110A0' /><slave name='lcd_rw.s1' start='0x110A0' end='0x110B0' /><slave name='lcd_en.s1' start='0x110B0' end='0x110C0' /><slave name='lcd_blon.s1' start='0x110C0' end='0x110D0' /><slave name='lcd_on.s1' start='0x110D0' end='0x110E0' /><slave name='jtag_uart_0.avalon_jtag_slave' start='0x110E8' end='0x110F0' /></address-map>]]></parameter>
   <parameter name="clockFrequency" value="50000000" />
   <parameter name="deviceFamilyName" value="Cyclone IV E" />
   <parameter name="internalIrqMaskSystemInfo" value="1" />
@@ -493,6 +514,24 @@
   <parameter name="width" value="32" />
   <parameter name="clockRate" value="50000000" />
  </module>
+ <module
+   kind="altera_avalon_pio"
+   version="13.0.1.99.2"
+   enabled="1"
+   name="button">
+  <parameter name="bitClearingEdgeCapReg" value="false" />
+  <parameter name="bitModifyingOutReg" value="false" />
+  <parameter name="captureEdge" value="false" />
+  <parameter name="direction" value="Input" />
+  <parameter name="edgeType" value="RISING" />
+  <parameter name="generateIRQ" value="false" />
+  <parameter name="irqType" value="LEVEL" />
+  <parameter name="resetValue" value="0" />
+  <parameter name="simDoTestBenchWiring" value="false" />
+  <parameter name="simDrivenValue" value="0" />
+  <parameter name="width" value="32" />
+  <parameter name="clockRate" value="50000000" />
+ </module>
  <connection
    kind="avalon"
    version="13.0"
@@ -548,7 +587,7 @@
    start="nios2_qsys_0.data_master"
    end="jtag_uart_0.avalon_jtag_slave">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x000110c8" />
+  <parameter name="baseAddress" value="0x000110e8" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -566,7 +605,7 @@
    start="nios2_qsys_0.instruction_master"
    end="jtag_uart_0.avalon_jtag_slave">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x000110c8" />
+  <parameter name="baseAddress" value="0x000110e8" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -603,7 +642,7 @@
    start="nios2_qsys_0.data_master"
    end="lcd_on.s1">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x000110b0" />
+  <parameter name="baseAddress" value="0x000110d0" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -612,7 +651,7 @@
    start="nios2_qsys_0.instruction_master"
    end="lcd_on.s1">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x000110b0" />
+  <parameter name="baseAddress" value="0x000110d0" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -632,7 +671,7 @@
    start="nios2_qsys_0.data_master"
    end="lcd_blon.s1">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x000110a0" />
+  <parameter name="baseAddress" value="0x000110c0" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -641,7 +680,7 @@
    start="nios2_qsys_0.instruction_master"
    end="lcd_blon.s1">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x000110a0" />
+  <parameter name="baseAddress" value="0x000110c0" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -661,7 +700,7 @@
    start="nios2_qsys_0.data_master"
    end="lcd_en.s1">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x00011090" />
+  <parameter name="baseAddress" value="0x000110b0" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -670,7 +709,7 @@
    start="nios2_qsys_0.instruction_master"
    end="lcd_en.s1">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x00011090" />
+  <parameter name="baseAddress" value="0x000110b0" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -690,7 +729,7 @@
    start="nios2_qsys_0.data_master"
    end="lcd_rw.s1">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x00011080" />
+  <parameter name="baseAddress" value="0x000110a0" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -699,7 +738,7 @@
    start="nios2_qsys_0.instruction_master"
    end="lcd_rw.s1">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x00011080" />
+  <parameter name="baseAddress" value="0x000110a0" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -719,7 +758,7 @@
    start="nios2_qsys_0.data_master"
    end="lcd_rs.s1">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x00011070" />
+  <parameter name="baseAddress" value="0x00011090" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -728,7 +767,7 @@
    start="nios2_qsys_0.instruction_master"
    end="lcd_rs.s1">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x00011070" />
+  <parameter name="baseAddress" value="0x00011090" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -744,7 +783,7 @@
    start="nios2_qsys_0.data_master"
    end="lcd_d.s1">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x00011060" />
+  <parameter name="baseAddress" value="0x00011080" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -753,7 +792,7 @@
    start="nios2_qsys_0.instruction_master"
    end="lcd_d.s1">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x00011060" />
+  <parameter name="baseAddress" value="0x00011080" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -761,6 +800,35 @@
    version="13.0"
    start="nios2_qsys_0.jtag_debug_module_reset"
    end="lcd_d.reset" />
+ <connection kind="clock" version="13.0" start="clk_0.clk" end="button.clk" />
+ <connection
+   kind="reset"
+   version="13.0"
+   start="clk_0.clk_reset"
+   end="button.reset" />
+ <connection
+   kind="avalon"
+   version="13.0"
+   start="nios2_qsys_0.instruction_master"
+   end="button.s1">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x00011070" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
+ <connection
+   kind="avalon"
+   version="13.0"
+   start="nios2_qsys_0.data_master"
+   end="button.s1">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x00011070" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
+ <connection
+   kind="reset"
+   version="13.0"
+   start="nios2_qsys_0.jtag_debug_module_reset"
+   end="button.reset" />
  <interconnectRequirement for="$system" name="qsys_mm.clockCrossingAdapter" value="HANDSHAKE" />
  <interconnectRequirement for="$system" name="qsys_mm.maxAdditionalLatency" value="1" />
 </system>

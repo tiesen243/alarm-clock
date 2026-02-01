@@ -14,6 +14,7 @@
 **/*.jdi
 
 # Temporary / cache files
+RemoteSystemsTempFiles/
 **/*.bak
 **/*.tmp
 **/*.qws

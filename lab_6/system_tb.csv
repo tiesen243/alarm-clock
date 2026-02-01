@@ -1,12 +1,12 @@
-# system info system_tb on 2026.02.01.13:12:25
+# system info system_tb on 2026.02.01.14:03:02
 system_info:
 name,value
 DEVICE,EP4CE115F29C7
 DEVICE_FAMILY,Cyclone IV E
-GENERATION_ID,1769926338
+GENERATION_ID,1769929376
 #
 #
-# Files generated for system_tb on 2026.02.01.13:12:25
+# Files generated for system_tb on 2026.02.01.14:03:02
 files:
 filepath,kind,attributes,module,is_top
 system/testbench/system_tb/simulation/system_tb.v,VERILOG,,system_tb,true
@@ -17,6 +17,8 @@ system/testbench/system_tb/simulation/submodules/verbosity_pkg.sv,SYSTEM_VERILOG
 system/testbench/system_tb/simulation/submodules/altera_avalon_reset_source.sv,SYSTEM_VERILOG,,altera_avalon_reset_source,false
 system/testbench/system_tb/simulation/submodules/verbosity_pkg.sv,SYSTEM_VERILOG,,altera_conduit_bfm,false
 system/testbench/system_tb/simulation/submodules/altera_conduit_bfm.sv,SYSTEM_VERILOG,,altera_conduit_bfm,false
+system/testbench/system_tb/simulation/submodules/verbosity_pkg.sv,SYSTEM_VERILOG,,altera_conduit_bfm_0002,false
+system/testbench/system_tb/simulation/submodules/altera_conduit_bfm_0002.sv,SYSTEM_VERILOG,,altera_conduit_bfm_0002,false
 system/testbench/system_tb/simulation/submodules/system_nios2_qsys_0.sdc,SDC,,system_nios2_qsys_0,false
 system/testbench/system_tb/simulation/submodules/system_nios2_qsys_0.v,VERILOG,,system_nios2_qsys_0,false
 system/testbench/system_tb/simulation/submodules/system_nios2_qsys_0_jtag_debug_module_sysclk.v,VERILOG,,system_nios2_qsys_0,false
@@ -38,6 +40,7 @@ system/testbench/system_tb/simulation/submodules/system_onchip_memory2_0.hex,HEX
 system/testbench/system_tb/simulation/submodules/system_onchip_memory2_0.v,VERILOG,,system_onchip_memory2_0,false
 system/testbench/system_tb/simulation/submodules/system_jtag_uart_0.v,VERILOG,,system_jtag_uart_0,false
 system/testbench/system_tb/simulation/submodules/system_lcd_on.v,VERILOG,,system_lcd_on,false
+system/testbench/system_tb/simulation/submodules/system_button.v,VERILOG,,system_button,false
 system/testbench/system_tb/simulation/submodules/altera_merlin_master_translator.sv,SYSTEM_VERILOG,,altera_merlin_master_translator,false
 system/testbench/system_tb/simulation/submodules/altera_merlin_slave_translator.sv,SYSTEM_VERILOG,,altera_merlin_slave_translator,false
 system/testbench/system_tb/simulation/submodules/altera_merlin_master_agent.sv,SYSTEM_VERILOG,,altera_merlin_master_agent,false
@@ -70,6 +73,7 @@ system_tb.system_inst.lcd_en,system_lcd_on
 system_tb.system_inst.lcd_rw,system_lcd_on
 system_tb.system_inst.lcd_rs,system_lcd_on
 system_tb.system_inst.lcd_d,system_lcd_on
+system_tb.system_inst.button,system_button
 system_tb.system_inst.nios2_qsys_0_instruction_master_translator,altera_merlin_master_translator
 system_tb.system_inst.nios2_qsys_0_data_master_translator,altera_merlin_master_translator
 system_tb.system_inst.nios2_qsys_0_jtag_debug_module_translator,altera_merlin_slave_translator
@@ -81,6 +85,7 @@ system_tb.system_inst.lcd_en_s1_translator,altera_merlin_slave_translator
 system_tb.system_inst.lcd_rw_s1_translator,altera_merlin_slave_translator
 system_tb.system_inst.lcd_rs_s1_translator,altera_merlin_slave_translator
 system_tb.system_inst.lcd_d_s1_translator,altera_merlin_slave_translator
+system_tb.system_inst.button_s1_translator,altera_merlin_slave_translator
 system_tb.system_inst.nios2_qsys_0_instruction_master_translator_avalon_universal_master_0_agent,altera_merlin_master_agent
 system_tb.system_inst.nios2_qsys_0_data_master_translator_avalon_universal_master_0_agent,altera_merlin_master_agent
 system_tb.system_inst.nios2_qsys_0_jtag_debug_module_translator_avalon_universal_slave_0_agent,altera_merlin_slave_agent
@@ -92,6 +97,7 @@ system_tb.system_inst.lcd_en_s1_translator_avalon_universal_slave_0_agent,altera
 system_tb.system_inst.lcd_rw_s1_translator_avalon_universal_slave_0_agent,altera_merlin_slave_agent
 system_tb.system_inst.lcd_rs_s1_translator_avalon_universal_slave_0_agent,altera_merlin_slave_agent
 system_tb.system_inst.lcd_d_s1_translator_avalon_universal_slave_0_agent,altera_merlin_slave_agent
+system_tb.system_inst.button_s1_translator_avalon_universal_slave_0_agent,altera_merlin_slave_agent
 system_tb.system_inst.nios2_qsys_0_jtag_debug_module_translator_avalon_universal_slave_0_agent_rsp_fifo,altera_avalon_sc_fifo
 system_tb.system_inst.onchip_memory2_0_s1_translator_avalon_universal_slave_0_agent_rsp_fifo,altera_avalon_sc_fifo
 system_tb.system_inst.jtag_uart_0_avalon_jtag_slave_translator_avalon_universal_slave_0_agent_rsp_fifo,altera_avalon_sc_fifo
@@ -101,6 +107,7 @@ system_tb.system_inst.lcd_en_s1_translator_avalon_universal_slave_0_agent_rsp_fi
 system_tb.system_inst.lcd_rw_s1_translator_avalon_universal_slave_0_agent_rsp_fifo,altera_avalon_sc_fifo
 system_tb.system_inst.lcd_rs_s1_translator_avalon_universal_slave_0_agent_rsp_fifo,altera_avalon_sc_fifo
 system_tb.system_inst.lcd_d_s1_translator_avalon_universal_slave_0_agent_rsp_fifo,altera_avalon_sc_fifo
+system_tb.system_inst.button_s1_translator_avalon_universal_slave_0_agent_rsp_fifo,altera_avalon_sc_fifo
 system_tb.system_inst.addr_router,system_addr_router
 system_tb.system_inst.addr_router_001,system_addr_router
 system_tb.system_inst.id_router,system_id_router
@@ -112,6 +119,7 @@ system_tb.system_inst.id_router_005,system_id_router
 system_tb.system_inst.id_router_006,system_id_router
 system_tb.system_inst.id_router_007,system_id_router
 system_tb.system_inst.id_router_008,system_id_router
+system_tb.system_inst.id_router_009,system_id_router
 system_tb.system_inst.rst_controller,altera_reset_controller
 system_tb.system_inst.cmd_xbar_demux,system_cmd_xbar_demux
 system_tb.system_inst.cmd_xbar_demux_001,system_cmd_xbar_demux
@@ -124,6 +132,7 @@ system_tb.system_inst.cmd_xbar_mux_005,system_cmd_xbar_mux
 system_tb.system_inst.cmd_xbar_mux_006,system_cmd_xbar_mux
 system_tb.system_inst.cmd_xbar_mux_007,system_cmd_xbar_mux
 system_tb.system_inst.cmd_xbar_mux_008,system_cmd_xbar_mux
+system_tb.system_inst.cmd_xbar_mux_009,system_cmd_xbar_mux
 system_tb.system_inst.rsp_xbar_demux,system_rsp_xbar_demux
 system_tb.system_inst.rsp_xbar_demux_001,system_rsp_xbar_demux
 system_tb.system_inst.rsp_xbar_demux_002,system_rsp_xbar_demux
@@ -133,6 +142,7 @@ system_tb.system_inst.rsp_xbar_demux_005,system_rsp_xbar_demux
 system_tb.system_inst.rsp_xbar_demux_006,system_rsp_xbar_demux
 system_tb.system_inst.rsp_xbar_demux_007,system_rsp_xbar_demux
 system_tb.system_inst.rsp_xbar_demux_008,system_rsp_xbar_demux
+system_tb.system_inst.rsp_xbar_demux_009,system_rsp_xbar_demux
 system_tb.system_inst.rsp_xbar_mux,system_rsp_xbar_mux
 system_tb.system_inst.rsp_xbar_mux_001,system_rsp_xbar_mux
 system_tb.system_inst.irq_mapper,system_irq_mapper
@@ -144,3 +154,4 @@ system_tb.system_inst_lcd_en_external_connection_bfm,altera_conduit_bfm
 system_tb.system_inst_lcd_rw_external_connection_bfm,altera_conduit_bfm
 system_tb.system_inst_lcd_rs_external_connection_bfm,altera_conduit_bfm
 system_tb.system_inst_lcd_d_external_connection_bfm,altera_conduit_bfm
+system_tb.system_inst_button_external_connection_bfm,altera_conduit_bfm_0002
