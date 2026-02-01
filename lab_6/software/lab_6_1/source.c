@@ -63,7 +63,7 @@ int main() {
 
   lcd_init();
   IOWR_ALTERA_AVALON_PIO_DATA(LCD_ON_BASE, 0x01);
-  IOWR_ALTERA_AVALON_PIO_DATA(LCD_BLON_BASE, 0x00);
+  IOWR_ALTERA_AVALON_PIO_DATA(LCD_BLON_BASE, 0x01);
 
   while (1) {
     for (i = 0; i < 100; i++) {
