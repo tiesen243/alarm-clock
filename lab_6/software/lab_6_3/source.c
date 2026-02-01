@@ -10,8 +10,9 @@
 #include "sys/alt_stdio.h"
 #include "system.h"
 #include <stdio.h>
+#include <time.h>
 
-unsigned int counter = 25190;
+unsigned int counter = 1769935447;
 
 void delay(int a) {
   volatile int i = 0;
@@ -60,24 +61,41 @@ void lcd_init() {
   command(0x01);
 }
 
+char *calculate_date(unsigned int current) {
+  static char date_str[11];
+  time_t seconds = (time_t)current;
+
+  struct tm *t = localtime(&seconds);
+
+  sprintf(date_str, "%02d-%02d-%04d", t->tm_mday, t->tm_mon + 1,
+          t->tm_year + 1900);
+
+  return date_str;
+}
+
+char *calculate_time(unsigned int current) {
+  static char time_str[9];
+  time_t seconds = (time_t)current;
+
+  struct tm *t = localtime(&seconds);
+
+  sprintf(time_str, "%02d:%02d:%02d", t->tm_hour + 7, t->tm_min, t->tm_sec);
+
+  return time_str;
+}
+
 void Timer_IQR_Handler(void *isr_context) {
   counter++;
-  if (counter > 86399)
-    counter = 0;
 
-  int hours = counter / 3600;
-  int minutes = (counter % 3600) / 60;
-  int seconds = counter % 60;
+  command(0x02);
 
-  command(0x02); // clear cursor
-  lcd_data((hours / 10) + '0');
-  lcd_data((hours % 10) + '0');
-  lcd_data(':');
-  lcd_data((minutes / 10) + '0');
-  lcd_data((minutes % 10) + '0');
-  lcd_data(':');
-  lcd_data((seconds / 10) + '0');
-  lcd_data((seconds % 10) + '0');
+  char *time_str = calculate_time(counter);
+  lcd_string(time_str);
+
+  command(0xC0); // Move to second line
+
+  char *date_str = calculate_date(counter);
+  lcd_string(date_str);
 
   IOWR_ALTERA_AVALON_TIMER_STATUS(TIMER_0_BASE,
                                   ALTERA_AVALON_TIMER_STATUS_TO_MSK);
