@@ -142,18 +142,10 @@ ACDS_VERSION := 13.0sp1
 ELF := lab_1_2.elf
 
 # Paths to C, C++, and assembly source files.
-C_SRCS :=
+C_SRCS := source.c
 CXX_SRCS :=
 ASM_SRCS :=
 
-# Variables for source paths as specified by --src-dir and 
-# --src-rdir commands.  Source files found in those directories as listed below 
-# using those SRC_DIR variables.
-SRC_DIR_01 := $(call adjust-path,.)
-
-SDIR_C_SRCS += $(SRC_DIR_01)/source.c
-SDIR_CXX_SRCS :=
-SDIR_ASM_SRCS :=
 
 # Path to root of object file tree.
 OBJ_ROOT_DIR := obj
@@ -185,7 +177,7 @@ CRT0 :=
 SYS_LIB :=
 
 # Define path to the root of the BSP.
-BSP_ROOT_DIR := ../lab_1_2_bsp/
+BSP_ROOT_DIR := ../lab_1_bsp/
 
 # List of application specific include directories, library directories and library names
 APP_INCLUDE_DIRS :=
@@ -196,8 +188,6 @@ APP_LIBRARY_NAMES :=
 BUILD_PRE_PROCESS :=
 BUILD_POST_PROCESS :=
 
-OBJDUMP_INCLUDE_SOURCE := 1
-QUARTUS_PROJECT_DIR := ../../
 
 
 #END GENERATED

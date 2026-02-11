@@ -3,7 +3,6 @@
 	<name>lab_1_1</name>
 	<comment></comment>
 	<projects>
-		<project>lab_1_1_bsp</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
@@ -39,6 +38,10 @@
 				<dictionary>
 					<key>org.eclipse.cdt.make.core.buildCommand</key>
 					<value>make</value>
+				</dictionary>
+				<dictionary>
+					<key>org.eclipse.cdt.make.core.buildLocation</key>
+					<value>${workspace_loc://lab_1_1}</value>
 				</dictionary>
 				<dictionary>
 					<key>org.eclipse.cdt.make.core.cleanBuildTarget</key>
