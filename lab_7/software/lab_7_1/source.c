@@ -20,11 +20,11 @@ int main() {
 	while (1) {
 		for (i = 0; i < 100; i++) {
 			IOWR_ALTERA_AVALON_UART_TXDATA(UART_0_BASE, number[i / 10]);
-			usleep(1000);
+			usleep(1);
 			IOWR_ALTERA_AVALON_UART_TXDATA(UART_0_BASE, number[i % 10]);
-			usleep(1000);
+			usleep(1);
 			IOWR_ALTERA_AVALON_UART_TXDATA(UART_0_BASE, '\n');
-			usleep(1000000);
+			usleep(100);
 		}
 	}
 

@@ -31,11 +31,11 @@ int main()
 
 			printf("Counter: %d\n", counter);
 			IOWR_ALTERA_AVALON_UART_TXDATA(UART_0_BASE, number[counter / 10]);
-			usleep(1000);
+			usleep(1);
 			IOWR_ALTERA_AVALON_UART_TXDATA(UART_0_BASE, number[counter % 10]);
-			usleep(1000);
+			usleep(1);
 			IOWR_ALTERA_AVALON_UART_TXDATA(UART_0_BASE, '\n');
-			usleep(1000);
+			usleep(1);
 		}
 	}
 

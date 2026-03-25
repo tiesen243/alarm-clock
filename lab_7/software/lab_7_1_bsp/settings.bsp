@@ -2,8 +2,8 @@
 <sch:Settings xmlns:sch="http://www.altera.com/embeddedsw/bsp/schema">
         <BspType>hal</BspType>
         <BspVersion>default</BspVersion>
-        <BspGeneratedTimeStamp>Mar 11, 2026 1:02:07 PM</BspGeneratedTimeStamp>
-        <BspGeneratedUnixTimeStamp>1773208927369</BspGeneratedUnixTimeStamp>
+        <BspGeneratedTimeStamp>Mar 13, 2026 3:21:49 PM</BspGeneratedTimeStamp>
+        <BspGeneratedUnixTimeStamp>1773390109377</BspGeneratedUnixTimeStamp>
         <BspGeneratedLocation>D:\422001423701-soc\lab_7\software\lab_7_1_bsp</BspGeneratedLocation>
         <BspSettingsFile>settings.bsp</BspSettingsFile>
         <SopcDesignFile>D:\422001423701-soc\lab_7\system.sopcinfo</SopcDesignFile>
@@ -899,8 +899,14 @@
                 <attributes>printable</attributes>
         </MemoryMap>
         <MemoryMap>
+                <slaveDescriptor>button</slaveDescriptor>
+                <addressRange>0x00011020 - 0x0001102F</addressRange>
+                <addressSpan>16</addressSpan>
+                <attributes/>
+        </MemoryMap>
+        <MemoryMap>
                 <slaveDescriptor>jtag_uart_0</slaveDescriptor>
-                <addressRange>0x00011020 - 0x00011027</addressRange>
+                <addressRange>0x00011030 - 0x00011037</addressRange>
                 <addressSpan>8</addressSpan>
                 <attributes>printable</attributes>
         </MemoryMap>

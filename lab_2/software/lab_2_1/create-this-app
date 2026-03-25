@@ -5,7 +5,7 @@
 
 BSP_DIR=../lab_2_1_bsp
 QUARTUS_PROJECT_DIR=../../
-NIOS2_APP_GEN_ARGS="--elf-name lab_2_1.elf --app-dir . --src-dir . --set OBJDUMP_INCLUDE_SOURCE 1"
+NIOS2_APP_GEN_ARGS="--elf-name lab_2_1.elf --no-src --set OBJDUMP_INCLUDE_SOURCE 1"
 
 
 # First, check to see if $SOPC_KIT_NIOS2 environmental variable is set.

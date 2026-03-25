@@ -18,14 +18,15 @@ void send(char *str)
         IOWR_ALTERA_AVALON_UART_TXDATA(UART_0_BASE, *str++);
     }
 
-
     while (!(IORD_ALTERA_AVALON_UART_STATUS(UART_0_BASE) & ALTERA_AVALON_UART_STATUS_TRDY_MSK))
         ;
     IOWR_ALTERA_AVALON_UART_TXDATA(UART_0_BASE, '\n');
 }
 
-char toUpper(char c) {
-    if (c >= 'a' && c <= 'z') return c - 32;
+char toUpper(char c)
+{
+    if (c >= 'a' && c <= 'z')
+        return c - 32;
     return c;
 }
 
@@ -41,10 +42,14 @@ int main()
 
         rxData = toUpper(IORD_ALTERA_AVALON_UART_RXDATA(UART_0_BASE));
 
-        if (rxData == 'S') send("Down");
-        else if (rxData == 'W') send("Up");
-        else if (rxData == 'A') send("Left");
-        else if (rxData == 'D') send("Right");
+        if (rxData == 'S')
+            send("Down");
+        else if (rxData == 'W')
+            send("Up");
+        else if (rxData == 'A')
+            send("Left");
+        else if (rxData == 'D')
+            send("Right");
     }
 
     return 0;

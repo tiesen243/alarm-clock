@@ -8,11 +8,12 @@
 #include <io.h>
 #include <system.h>
 
+int button;
+
 int main() {
-  int temp;
   while (1) {
-    temp = IORD(SWITCH_BASE, 0);
-    IOWR(LED_BASE, 0, temp);
+    button = IORD(SWITCH_BASE, 0);
+    IOWR(LED_BASE, 0, button);
   }
 
   return 0;
