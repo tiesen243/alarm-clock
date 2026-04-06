@@ -50,68 +50,9 @@ const int HEX_7SEG[16] = {
     0x0E  // F
 };
 
-void set_time();
-
-void set_alarm();
-
-static int parse_fixed_digits(const char *s, int len)
-{
-  int value = 0;
-  int i;
-
-  for (i = 0; i < len; i++)
-  {
-    if (!isdigit((unsigned char)s[i]))
-      return -1;
-
-    value = value * 10 + (s[i] - '0');
-  }
-
-  return value;
-}
-
-static int parse_uart_time_command(const char *cmd, Date *out)
-{
-  int day, month, year, hour, minute, second;
-
-  if (cmd[0] != 't' && cmd[0] != 'a')
-    return 0;
-
-  if (strlen(cmd) != 15)
-    return 0;
-
-  day = parse_fixed_digits(cmd + 1, 2);
-  month = parse_fixed_digits(cmd + 3, 2);
-  year = parse_fixed_digits(cmd + 5, 4);
-  hour = parse_fixed_digits(cmd + 9, 2);
-  minute = parse_fixed_digits(cmd + 11, 2);
-  second = parse_fixed_digits(cmd + 13, 2);
-
-  printf("Parsed UART command - Day: %d, Month: %d, Year: %d, Hour: %d, Minute: %d, Second: %d\n",
-         day, month, year, hour, minute, second);
-
-  if (day < 1 || day > 31)
-    return 0;
-  if (month < 1 || month > 12)
-    return 0;
-  if (year < 0 || year > 9999)
-    return 0;
-  if (hour < 0 || hour > 23)
-    return 0;
-  if (minute < 0 || minute > 59)
-    return 0;
-  if (second < 0 || second > 59)
-    return 0;
-
-  out->day = day;
-  out->month = month;
-  out->year = year;
-  out->hour = hour;
-  out->minute = minute;
-  out->second = second;
-
-  return 1;
-}
+static void run_set_datetime(Date *target, const char *done_label);
+static int parse_fixed_digits(const char *s, int len);
+static int parse_uart_time_command(const char *cmd, Date *out);
 
 void Timer_IQR_Handler(void *isr_context)
 {
@@ -127,9 +68,9 @@ void Timer_IQR_Handler(void *isr_context)
   if (mode == RUNNING)
     lcd_show_datetime(&current_time);
   else if (mode == SET_TIME)
-    set_time();
+    run_set_datetime(&current_time, "Time set");
   else if (mode == SET_ALARM)
-    set_alarm();
+    run_set_datetime(&alarm_time, "Alarm set");
 
   if (alarm_counter > 0 && mode == RUNNING)
   {
@@ -143,7 +84,10 @@ void Timer_IQR_Handler(void *isr_context)
     }
   }
   else
+  {
     IOWR(BUZZ_BASE, 0, 0);
+    uart_send_string("A0");
+  }
 
   timer_clear_timeout();
 }
@@ -175,7 +119,7 @@ int main(void)
       mode = RUNNING;
       alarm_counter = 0;
       printf("Tat bao thuc\n");
-      uart_send_string("Alarm deactivated");
+      uart_send_string("A0");
     }
     else if (IORD(BUTTON_BASE, 0) == 13 && mode == RUNNING)
     {
@@ -197,7 +141,10 @@ int main(void)
     }
 
     if (is_alarm(&current_time, &alarm_time))
+    {
       alarm_counter = 1000;
+      uart_send_string("A1");
+    }
 
     // UART handler
     if (is_uart_available())
@@ -205,7 +152,7 @@ int main(void)
       uart_receive_string(buffer, sizeof(buffer));
       printf("Received from UART: %s\n", buffer);
 
-      if (buffer[0] == 't') // set time command
+      if (buffer[0] == 'T') // set time command
       {
         mode = SET_TIME;
         Date new_time;
@@ -216,6 +163,9 @@ int main(void)
           printf("Time updated via UART: %02d/%02d/%04d %02d:%02d:%02d\n",
                  current_time.day, current_time.month, current_time.year,
                  current_time.hour, current_time.minute, current_time.second);
+          uart_send_string("Time updated: " + current_time.day + "/" + current_time.month + "/" + current_time.year + " " +
+                           current_time.hour + ":" + current_time.minute + ":" + current_time.second);
+
           lcd_show_datetime(&current_time);
         }
         else
@@ -225,7 +175,7 @@ int main(void)
 
         mode = RUNNING;
       }
-      else if (buffer[0] == 'a') // set alarm command
+      else if (buffer[0] == 'A') // set alarm command
       {
         mode = SET_ALARM;
         Date new_alarm;
@@ -233,10 +183,21 @@ int main(void)
         if (parse_uart_time_command(buffer, &new_alarm))
         {
           alarm_time = new_alarm;
+
           printf("Alarm updated via UART: %02d/%02d/%04d %02d:%02d:%02d\n",
                  alarm_time.day, alarm_time.month, alarm_time.year,
                  alarm_time.hour, alarm_time.minute, alarm_time.second);
+          uart_send_string("Alarm updated: " + alarm_time.day + "/" + alarm_time.month + "/" + alarm_time.year + " " +
+                           alarm_time.hour + ":" + alarm_time.minute + ":" + alarm_time.second);
+
           alarm_counter = 0; // reset alarm counter to prevent immediate alarm if new time matches current time
+        }
+        else if (buffer[0] == 'S') // stop alarm command
+        {
+          alarm_counter = 0;
+          IOWR(BUZZ_BASE, 0, 0);
+          uart_send_string("A0");
+          printf("Alarm stopped via UART.\n");
         }
         else
         {
@@ -377,12 +338,55 @@ static void run_set_datetime(Date *target, const char *done_label)
   }
 }
 
-void set_time()
+static int parse_fixed_digits(const char *s, int len)
 {
-  run_set_datetime(&current_time, "Time set");
+  int value = 0;
+  int i;
+
+  for (i = 0; i < len; i++)
+  {
+    if (!isdigit((unsigned char)s[i]))
+      return -1;
+
+    value = value * 10 + (s[i] - '0');
+  }
+
+  return value;
 }
 
-void set_alarm()
+static int parse_uart_time_command(const char *cmd, Date *out)
 {
-  run_set_datetime(&alarm_time, "Alarm set");
+  int day, month, year, hour, minute, second;
+
+  day = parse_fixed_digits(cmd + 1, 2);
+  month = parse_fixed_digits(cmd + 3, 2);
+  year = parse_fixed_digits(cmd + 5, 4);
+  hour = parse_fixed_digits(cmd + 9, 2);
+  minute = parse_fixed_digits(cmd + 11, 2);
+  second = parse_fixed_digits(cmd + 13, 2);
+
+  printf("Parsed UART command - Day: %d, Month: %d, Year: %d, Hour: %d, Minute: %d, Second: %d\n",
+         day, month, year, hour, minute, second);
+
+  if (day < 1 || day > 31)
+    return 0;
+  if (month < 1 || month > 12)
+    return 0;
+  if (year < 0 || year > 9999)
+    return 0;
+  if (hour < 0 || hour > 23)
+    return 0;
+  if (minute < 0 || minute > 59)
+    return 0;
+  if (second < 0 || second > 59)
+    return 0;
+
+  out->day = day;
+  out->month = month;
+  out->year = year;
+  out->hour = hour;
+  out->minute = minute;
+  out->second = second;
+
+  return 1;
 }
