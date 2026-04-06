@@ -14,7 +14,8 @@
       {
         "title": "software",
         "width": 800,
-        "height": 600
+        "height": 600,
+        "resizable": true
       }
     ],
     "security": {
