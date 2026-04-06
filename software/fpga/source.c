@@ -163,8 +163,13 @@ int main(void)
           printf("Time updated via UART: %02d/%02d/%04d %02d:%02d:%02d\n",
                  current_time.day, current_time.month, current_time.year,
                  current_time.hour, current_time.minute, current_time.second);
-          uart_send_string("Time updated: " + current_time.day + "/" + current_time.month + "/" + current_time.year + " " +
-                           current_time.hour + ":" + current_time.minute + ":" + current_time.second);
+          {
+            char uart_msg[100];
+            snprintf(uart_msg, sizeof(uart_msg), "Time updated: %02d/%02d/%04d %02d:%02d:%02d",
+                     current_time.day, current_time.month, current_time.year,
+                     current_time.hour, current_time.minute, current_time.second);
+            uart_send_string(uart_msg);
+          }
 
           lcd_show_datetime(&current_time);
         }
@@ -187,8 +192,13 @@ int main(void)
           printf("Alarm updated via UART: %02d/%02d/%04d %02d:%02d:%02d\n",
                  alarm_time.day, alarm_time.month, alarm_time.year,
                  alarm_time.hour, alarm_time.minute, alarm_time.second);
-          uart_send_string("Alarm updated: " + alarm_time.day + "/" + alarm_time.month + "/" + alarm_time.year + " " +
-                           alarm_time.hour + ":" + alarm_time.minute + ":" + alarm_time.second);
+          {
+            char uart_msg[100];
+            snprintf(uart_msg, sizeof(uart_msg), "Alarm updated: %02d/%02d/%04d %02d:%02d:%02d",
+                     alarm_time.day, alarm_time.month, alarm_time.year,
+                     alarm_time.hour, alarm_time.minute, alarm_time.second);
+            uart_send_string(uart_msg);
+          }
 
           alarm_counter = 0; // reset alarm counter to prevent immediate alarm if new time matches current time
         }
