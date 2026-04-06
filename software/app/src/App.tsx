@@ -1,88 +1,31 @@
-import { useState } from "react";
-import "./App.css";
+import { ThemeProvider } from 'next-themes'
 
-import reactLogo from "./assets/react.svg";
-import { useUART } from "./hooks/use-uart";
-import { useUARTSubscription } from "./hooks/use-uart-subscription";
+import { Controller } from '@/components/controller'
+import { Logs } from '@/components/logs'
+import { Ports } from '@/components/ports'
+import { UARTProvider } from '@/hooks/use-uart'
 
-function App() {
-  const { ports, status, connect, disconnect, send } = useUART();
-  const [port, setPort] = useState<string>(ports[0] ?? "");
-  const [data, setData] = useState<string[]>([]);
-  const [msg, setMsg] = useState("");
-
-  useUARTSubscription((data) => {
-    console.log("Received data:", data);
-    return setData((prev) => [...prev, data]);
-  });
-
+export default function App() {
   return (
-    <main className="container">
-      <h1>Welcome to Tauri + React</h1>
+    <ThemeProvider
+      attribute='class'
+      defaultTheme='system'
+      enableSystem
+      disableTransitionOnChange
+    >
+      <UARTProvider>
+        <main className='container mx-auto p-4 flex flex-col gap-6'>
+          <h1 className='scroll-m-20 text-center text-4xl font-extrabold tracking-tight text-balance'>
+            UART Clock Controller
+          </h1>
 
-      <div className="row">
-        <a href="https://vite.dev" target="_blank">
-          <img src="/vite.svg" className="logo vite" alt="Vite logo" />
-        </a>
-        <a href="https://tauri.app" target="_blank">
-          <img src="/tauri.svg" className="logo tauri" alt="Tauri logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <p>Click on the Tauri, Vite, and React logos to learn more.</p>
+          <Ports />
 
-      <div style={styles.field}>
-        <select
-          style={styles.fieldSelect}
-          value={port}
-          onChange={(e) => {
-            console.log(e);
+          <Controller />
 
-            return setPort(e.target.value);
-          }}
-        >
-          {ports.map((port) => (
-            <option key={port}>{port}</option>
-          ))}
-        </select>
-
-        {status.type === "Connected" ? (
-          <button onClick={() => disconnect()}>Disconnect</button>
-        ) : (
-          <button onClick={() => connect(port, 9600)}>Connect</button>
-        )}
-      </div>
-
-      <p>{JSON.stringify(status)}</p>
-
-      <div>
-        <input
-          type="text"
-          value={msg}
-          onChange={(e) => setMsg(e.target.value)}
-          placeholder="Type a message to send"
-        />
-        <button onClick={() => send(msg)}>Send</button>
-      </div>
-
-      <pre>{JSON.stringify(data, null, 2)}</pre>
-    </main>
-  );
+          <Logs />
+        </main>
+      </UARTProvider>
+    </ThemeProvider>
+  )
 }
-
-export default App;
-
-const styles = {
-  field: {
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-    gap: "0,5rem",
-  },
-
-  fieldSelect: {
-    flex: 1,
-  },
-} as Record<string, React.CSSProperties>;
