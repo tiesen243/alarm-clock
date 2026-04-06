@@ -1,0 +1,57 @@
+# Quartus II files
+*.qsf
+*.qws
+*.rpt
+*.txt
+db/
+incremental_db/
+output_files/
+simulation/
+
+# NIOS II BSP and Application
+software/*/obj/
+software/**/Debug/
+software/**/Release/
+software/**/.settings/
+software/**/.cproject
+software/**/.project
+
+# Eclipse IDE
+.metadata/
+.settings/
+.classpath
+.project
+*.launch
+
+# Build artifacts
+*.o
+*.a
+*.so
+*.elf
+*.hex
+*.sof
+*.pof
+
+# Generated files
+*_hw.tcl
+*_db/
+
+# Operating system files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# Temporary files
+*.tmp
+*.bak
+*~
+
+# IDE specific
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# Python cache
+__pycache__/
+*.pyc
