@@ -25,7 +25,7 @@ enum MODE
 };
 
 static Date current_time = {25, 3, 2026, 18, 0, 0},
-            alarm_time = {25, 3, 2026, 18, 0, 5};
+            alarm_time;
 static enum MODE mode = RUNNING;
 static int alarm_counter = 0, buzz_state = 0;
 static char buffer[100];
@@ -86,7 +86,6 @@ void Timer_IQR_Handler(void *isr_context)
   else
   {
     IOWR(BUZZ_BASE, 0, 0);
-    uart_send_string("A0");
   }
 
   timer_clear_timeout();
@@ -140,8 +139,7 @@ int main(void)
       uart_send_string("Set alarm mode activated");
     }
 
-    if (is_alarm(&current_time, &alarm_time))
-    {
+    if (is_alarm(&current_time, &alarm_time)) {
       alarm_counter = 1000;
       uart_send_string("A1");
     }
@@ -152,7 +150,14 @@ int main(void)
       uart_receive_string(buffer, sizeof(buffer));
       printf("Received from UART: %s\n", buffer);
 
-      if (buffer[0] == 'T') // set time command
+      if (buffer[0] == 'S') // stop alarm command
+      {
+        alarm_counter = 0;
+        IOWR(BUZZ_BASE, 0, 0);
+        uart_send_string("A0");
+        printf("Alarm stopped via UART.\n");
+      }
+       else if (buffer[0] == 'T') // set time command
       {
         mode = SET_TIME;
         Date new_time;
@@ -201,13 +206,6 @@ int main(void)
           }
 
           alarm_counter = 0; // reset alarm counter to prevent immediate alarm if new time matches current time
-        }
-        else if (buffer[0] == 'S') // stop alarm command
-        {
-          alarm_counter = 0;
-          IOWR(BUZZ_BASE, 0, 0);
-          uart_send_string("A0");
-          printf("Alarm stopped via UART.\n");
         }
         else
         {

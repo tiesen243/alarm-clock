@@ -66,7 +66,6 @@ export const Set: React.FC<{ type: 'Time' | 'Alarm' }> = ({ type }) => {
         <CardTitle>Set {type}</CardTitle>
         <CardDescription>
           Configure the {type.toLowerCase()} for the alarm clock.
-          {value}
         </CardDescription>
       </CardHeader>
 
@@ -91,7 +90,8 @@ const AlarmStatus: React.FC = () => {
   const [isActive, setIsActive] = useState<boolean>(false)
 
   useUARTSubscription((data) => {
-    if (data.startsWith('A')) setIsActive(data[1] === '1')
+    const str = data.trim()
+    if (str.includes('A')) setIsActive(str.charAt(str.length - 1) === '1')
   })
 
   return (
@@ -121,7 +121,7 @@ const AlarmStatus: React.FC = () => {
 
         <Button
           variant={isActive ? 'destructive' : 'outline'}
-          onClick={() => send('S')}
+          onClick={() => send("S")}
           disabled={!isActive}
         >
           Turn Off Alarm
