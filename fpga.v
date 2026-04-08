@@ -3,7 +3,7 @@ module fpga(
 	 input  [3:0] KEY,
 	 input  [6:0] SW,
 	 
-	 inout  [7:0] GPIO,
+	 inout  [12:0] GPIO,
 
 	 output UART_TXD, LCD_ON, LCD_BLON, LCD_EN, LCD_RW, LCD_RS,
 	 output [7:0] LCD_DATA,
@@ -26,10 +26,10 @@ module fpga(
 	  .button_external_connection_export   (KEY[3:0]),
 	  .switch_external_connection_export   (SW[6:0]),
 
-	  .button_col_external_connection_export (GPIO[3:0]),
-     .button_row_external_connection_export (GPIO[7:4]),
+	  //.button_col_external_connection_export (GPIO[3:0]),
+     //.button_row_external_connection_export (GPIO[7:4]),
 
-	  .buzz_external_connection_export     (LEDR[0]),
+	  .buzz_external_connection_export     (GPIO[1]),
 	  .hex0_external_connection_export     (HEX0),
      .hex1_external_connection_export     (HEX1),
      .hex2_external_connection_export     (HEX2)

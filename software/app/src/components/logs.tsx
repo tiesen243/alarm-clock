@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 import { Button } from '@/components/ui/button'
 import { Item, ItemContent, ItemGroup, ItemTitle } from '@/components/ui/item'
@@ -7,10 +7,17 @@ import { useUARTSubscription } from '@/hooks/use-uart-subscription'
 
 export const Logs: React.FC = () => {
   const [logs, setLogs] = useState<string[]>([])
+  const bottomRef = useRef<HTMLDivElement>(null)
 
   useUARTSubscription((data) => {
     setLogs((prev) => [...prev, data])
   })
+
+  useEffect(() => {
+    if (bottomRef.current)
+      bottomRef.current.scrollIntoView({ behavior: 'smooth' })
+  }, [logs])
+
 
   return (
     <section className='flex flex-col gap-2'>
@@ -26,14 +33,15 @@ export const Logs: React.FC = () => {
 
       <ScrollArea className='h-64 w-full'>
         <ItemGroup>
-          {logs.map((log) => (
-            <Item variant='outline' key={log}>
+          {logs.map((log, index) => (
+            <Item variant='outline' key={`${log}-${index}`}>
               <ItemContent>
                 <ItemTitle>{log}</ItemTitle>
               </ItemContent>
             </Item>
           ))}
         </ItemGroup>
+        <div ref={bottomRef} />
       </ScrollArea>
     </section>
   )
