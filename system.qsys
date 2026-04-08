@@ -64,7 +64,7 @@
    {
       datum _sortIndex
       {
-         value = "17";
+         value = "18";
          type = "int";
       }
    }
@@ -72,7 +72,7 @@
    {
       datum _sortIndex
       {
-         value = "18";
+         value = "19";
          type = "int";
       }
    }
@@ -80,7 +80,7 @@
    {
       datum _sortIndex
       {
-         value = "19";
+         value = "20";
          type = "int";
       }
    }
@@ -148,6 +148,14 @@
          type = "int";
       }
    }
+   element led
+   {
+      datum _sortIndex
+      {
+         value = "17";
+         type = "int";
+      }
+   }
    element nios2_qsys_0
    {
       datum _sortIndex
@@ -164,75 +172,11 @@
          type = "int";
       }
    }
-   element lcd_en.s1
-   {
-      datum baseAddress
-      {
-         value = "69792";
-         type = "String";
-      }
-   }
-   element switch.s1
-   {
-      datum baseAddress
-      {
-         value = "69776";
-         type = "String";
-      }
-   }
-   element uart_0.s1
-   {
-      datum baseAddress
-      {
-         value = "69664";
-         type = "String";
-      }
-   }
-   element button_col.s1
-   {
-      datum baseAddress
-      {
-         value = "69760";
-         type = "String";
-      }
-   }
    element button_row.s1
    {
       datum baseAddress
       {
          value = "69744";
-         type = "String";
-      }
-   }
-   element lcd_rw.s1
-   {
-      datum baseAddress
-      {
-         value = "69856";
-         type = "String";
-      }
-   }
-   element hex1.s1
-   {
-      datum baseAddress
-      {
-         value = "69696";
-         type = "String";
-      }
-   }
-   element lcd_on.s1
-   {
-      datum baseAddress
-      {
-         value = "69888";
-         type = "String";
-      }
-   }
-   element lcd_blon.s1
-   {
-      datum baseAddress
-      {
-         value = "69872";
          type = "String";
       }
    }
@@ -244,35 +188,11 @@
          type = "String";
       }
    }
-   element hex0.s1
-   {
-      datum baseAddress
-      {
-         value = "69712";
-         type = "String";
-      }
-   }
    element onchip_memory2_0.s1
    {
       datum baseAddress
       {
          value = "32768";
-         type = "String";
-      }
-   }
-   element timer.s1
-   {
-      datum baseAddress
-      {
-         value = "69632";
-         type = "String";
-      }
-   }
-   element buzz.s1
-   {
-      datum baseAddress
-      {
-         value = "69808";
          type = "String";
       }
    }
@@ -292,11 +212,99 @@
          type = "String";
       }
    }
+   element lcd_blon.s1
+   {
+      datum baseAddress
+      {
+         value = "69872";
+         type = "String";
+      }
+   }
+   element buzz.s1
+   {
+      datum baseAddress
+      {
+         value = "69808";
+         type = "String";
+      }
+   }
+   element lcd_en.s1
+   {
+      datum baseAddress
+      {
+         value = "69792";
+         type = "String";
+      }
+   }
    element button.s1
    {
       datum baseAddress
       {
          value = "69904";
+         type = "String";
+      }
+   }
+   element lcd_on.s1
+   {
+      datum baseAddress
+      {
+         value = "69888";
+         type = "String";
+      }
+   }
+   element hex1.s1
+   {
+      datum baseAddress
+      {
+         value = "69696";
+         type = "String";
+      }
+   }
+   element timer.s1
+   {
+      datum baseAddress
+      {
+         value = "69632";
+         type = "String";
+      }
+   }
+   element hex0.s1
+   {
+      datum baseAddress
+      {
+         value = "69712";
+         type = "String";
+      }
+   }
+   element button_col.s1
+   {
+      datum baseAddress
+      {
+         value = "69760";
+         type = "String";
+      }
+   }
+   element lcd_rw.s1
+   {
+      datum baseAddress
+      {
+         value = "69856";
+         type = "String";
+      }
+   }
+   element uart_0.s1
+   {
+      datum baseAddress
+      {
+         value = "69664";
+         type = "String";
+      }
+   }
+   element switch.s1
+   {
+      datum baseAddress
+      {
+         value = "69776";
          type = "String";
       }
    }
@@ -339,7 +347,7 @@
  <parameter name="projectName" value="fpga.qpf" />
  <parameter name="sopcBorderPoints" value="false" />
  <parameter name="systemHash" value="1" />
- <parameter name="timeStamp" value="1775031515975" />
+ <parameter name="timeStamp" value="1775654046103" />
  <parameter name="useTestBenchNamingPattern" value="false" />
  <instanceScript></instanceScript>
  <interface name="clk" internal="clk_0.clk_in" type="clock" dir="end" />
@@ -416,6 +424,11 @@
  <interface
    name="hex2_external_connection"
    internal="hex2.external_connection"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="led_external_connection"
+   internal="led.external_connection"
    type="conduit"
    dir="end" />
  <module kind="clock_source" version="13.0" enabled="1" name="clk_0">
@@ -530,7 +543,7 @@
   <parameter name="tightlyCoupledInstructionMaster2AddrWidth" value="1" />
   <parameter name="tightlyCoupledInstructionMaster3AddrWidth" value="1" />
   <parameter name="instSlaveMapParam"><![CDATA[<address-map><slave name='onchip_memory2_0.s1' start='0x8000' end='0x10000' /><slave name='nios2_qsys_0.jtag_debug_module' start='0x10800' end='0x11000' /></address-map>]]></parameter>
-  <parameter name="dataSlaveMapParam"><![CDATA[<address-map><slave name='onchip_memory2_0.s1' start='0x8000' end='0x10000' /><slave name='nios2_qsys_0.jtag_debug_module' start='0x10800' end='0x11000' /><slave name='timer.s1' start='0x11000' end='0x11020' /><slave name='uart_0.s1' start='0x11020' end='0x11040' /><slave name='hex1.s1' start='0x11040' end='0x11050' /><slave name='hex0.s1' start='0x11050' end='0x11060' /><slave name='hex2.s1' start='0x11060' end='0x11070' /><slave name='button_row.s1' start='0x11070' end='0x11080' /><slave name='button_col.s1' start='0x11080' end='0x11090' /><slave name='switch.s1' start='0x11090' end='0x110A0' /><slave name='lcd_en.s1' start='0x110A0' end='0x110B0' /><slave name='buzz.s1' start='0x110B0' end='0x110C0' /><slave name='lcd_d.s1' start='0x110C0' end='0x110D0' /><slave name='lcd_rs.s1' start='0x110D0' end='0x110E0' /><slave name='lcd_rw.s1' start='0x110E0' end='0x110F0' /><slave name='lcd_blon.s1' start='0x110F0' end='0x11100' /><slave name='lcd_on.s1' start='0x11100' end='0x11110' /><slave name='button.s1' start='0x11110' end='0x11120' /><slave name='jtag_uart_0.avalon_jtag_slave' start='0x11120' end='0x11128' /></address-map>]]></parameter>
+  <parameter name="dataSlaveMapParam"><![CDATA[<address-map><slave name='led.s1' start='0x0' end='0x10' /><slave name='onchip_memory2_0.s1' start='0x8000' end='0x10000' /><slave name='nios2_qsys_0.jtag_debug_module' start='0x10800' end='0x11000' /><slave name='timer.s1' start='0x11000' end='0x11020' /><slave name='uart_0.s1' start='0x11020' end='0x11040' /><slave name='hex1.s1' start='0x11040' end='0x11050' /><slave name='hex0.s1' start='0x11050' end='0x11060' /><slave name='hex2.s1' start='0x11060' end='0x11070' /><slave name='button_row.s1' start='0x11070' end='0x11080' /><slave name='button_col.s1' start='0x11080' end='0x11090' /><slave name='switch.s1' start='0x11090' end='0x110A0' /><slave name='lcd_en.s1' start='0x110A0' end='0x110B0' /><slave name='buzz.s1' start='0x110B0' end='0x110C0' /><slave name='lcd_d.s1' start='0x110C0' end='0x110D0' /><slave name='lcd_rs.s1' start='0x110D0' end='0x110E0' /><slave name='lcd_rw.s1' start='0x110E0' end='0x110F0' /><slave name='lcd_blon.s1' start='0x110F0' end='0x11100' /><slave name='lcd_on.s1' start='0x11100' end='0x11110' /><slave name='button.s1' start='0x11110' end='0x11120' /><slave name='jtag_uart_0.avalon_jtag_slave' start='0x11120' end='0x11128' /></address-map>]]></parameter>
   <parameter name="clockFrequency" value="50000000" />
   <parameter name="deviceFamilyName" value="Cyclone IV E" />
   <parameter name="internalIrqMaskSystemInfo" value="7" />
@@ -750,7 +763,7 @@
   <parameter name="resetValue" value="0" />
   <parameter name="simDoTestBenchWiring" value="false" />
   <parameter name="simDrivenValue" value="0" />
-  <parameter name="width" value="1" />
+  <parameter name="width" value="32" />
   <parameter name="clockRate" value="50000000" />
  </module>
  <module
@@ -863,6 +876,20 @@
    version="13.0.1.99.2"
    enabled="1"
    name="hex2">
+  <parameter name="bitClearingEdgeCapReg" value="false" />
+  <parameter name="bitModifyingOutReg" value="false" />
+  <parameter name="captureEdge" value="false" />
+  <parameter name="direction" value="Output" />
+  <parameter name="edgeType" value="RISING" />
+  <parameter name="generateIRQ" value="false" />
+  <parameter name="irqType" value="LEVEL" />
+  <parameter name="resetValue" value="0" />
+  <parameter name="simDoTestBenchWiring" value="false" />
+  <parameter name="simDrivenValue" value="0" />
+  <parameter name="width" value="32" />
+  <parameter name="clockRate" value="50000000" />
+ </module>
+ <module kind="altera_avalon_pio" version="13.0.1.99.2" enabled="1" name="led">
   <parameter name="bitClearingEdgeCapReg" value="false" />
   <parameter name="bitModifyingOutReg" value="false" />
   <parameter name="captureEdge" value="false" />
@@ -1183,6 +1210,17 @@
    end="hex1.s1">
   <parameter name="arbitrationPriority" value="1" />
   <parameter name="baseAddress" value="0x00011040" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
+ <connection kind="clock" version="13.0" start="clk_0.clk" end="led.clk" />
+ <connection kind="reset" version="13.0" start="clk_0.clk_reset" end="led.reset" />
+ <connection
+   kind="avalon"
+   version="13.0"
+   start="nios2_qsys_0.data_master"
+   end="led.s1">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x0000" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <interconnectRequirement for="$system" name="qsys_mm.clockCrossingAdapter" value="HANDSHAKE" />

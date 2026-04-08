@@ -117,8 +117,9 @@ int main(void)
 
       mode = RUNNING;
       alarm_counter = 0;
-      printf("Tat bao thuc\n");
+      printf("Alarm stopped via Button\n");
       uart_send_string("A0");
+      IOWR(LED_BASE, 0, 0);
     }
     else if (IORD(BUTTON_BASE, 0) == 13 && mode == RUNNING)
     {
@@ -142,6 +143,7 @@ int main(void)
     if (is_alarm(&current_time, &alarm_time)) {
       alarm_counter = 1000;
       uart_send_string("A1");
+      IOWR(LED_BASE, 0, 1);
     }
 
     // UART handler
@@ -154,6 +156,7 @@ int main(void)
       {
         alarm_counter = 0;
         IOWR(BUZZ_BASE, 0, 0);
+        IOWR(LED_BASE, 0, 0);
         uart_send_string("A0");
         printf("Alarm stopped via UART.\n");
       }
