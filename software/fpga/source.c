@@ -121,19 +121,14 @@ int main(void)
   IOWR(HEX1_BASE, 0, 0xFF);
   IOWR(HEX0_BASE, 0, 0xFF);
 
-  uint8_t box[] = {
-      0x00, // 00000000
-      0x00, // 00000000
-      0x3C, // 00111100
-      0x3C, // 00111100
-      0x3C, // 00111100
-      0x3C, // 00111100
-      0x00, // 00000000
-      0x00  // 00000000
-  };
+  send_matrix_led(REG_SCANLIMIT, 0x07);  // Sử dụng đủ 8 hàng
+  send_matrix_led(REG_DECODEMODE, 0x00); // Ma trận LED (không giải mã số)
+  send_matrix_led(REG_INTENSITY, 0x03);  // Độ sáng thấp (0-15)
+  send_matrix_led(REG_SHUTDOWN, 0x01);   // Bật IC
 
-  for (i = 0; i < 8; i++)
-    send_matrix_led((uint8_t)(i + 1), box[i]);
+  // Xóa màn hình bằng vòng lặp int
+  for (i = 1; i <= 8; i++)
+    send_matrix_led((uint8_t)i, 0x00);
 
   while (1)
   {
@@ -246,6 +241,22 @@ int main(void)
 
         mode = RUNNING;
       }
+    }
+
+    uint8_t box[] = {
+        0x00, // 00000000
+        0x00, // 00000000
+        0x3C, // 00111100
+        0x3C, // 00111100
+        0x3C, // 00111100
+        0x3C, // 00111100
+        0x00, // 00000000
+        0x00  // 00000000
+    };
+
+    for (i = 0; i < 8; i++)
+    {
+      send_matrix_led((uint8_t)(i + 1), box[i]);
     }
   }
 
