@@ -31,6 +31,19 @@ static int alarm_counter = 0, buzz_state = 0;
 static char buffer[100];
 int count = 0, count_2 = 0;
 
+// const int DIN_PIN = MATRIX_LED_DIN_BASE
+// const int CS_PIN = MATRIX_LED_CS_BASE
+// const int CLK_PIN = MATRIX_LED_CLK_BASE
+
+// Các địa chỉ thanh ghi quan trọng của MAX7219
+const byte REG_NOOP = 0x00;
+const byte REG_DIGIT0 = 0x01; // Tương ứng hàng 1
+const byte REG_DECODEMODE = 0x09;
+const byte REG_INTENSITY = 0x0A;
+const byte REG_SCANLIMIT = 0x0B;
+const byte REG_SHUTDOWN = 0x0C;
+const byte REG_DISPLAYTEST = 0x0F;
+
 const int HEX_7SEG[16] = {
     0x40, // 0
     0x79, // 1
@@ -91,6 +104,14 @@ void Timer_IQR_Handler(void *isr_context)
   timer_clear_timeout();
 }
 
+void send_matrix_led(byte address, byte data)
+{
+  IOWR(MATRIX_LED_BASE, 0, 0);
+  IOWR(MATRIX_LED_BASE, 0, address);
+  IOWR(MATRIX_LED_BASE, 0, data);
+  IOWR(MATRIX_LED_BASE, 0, 1);
+}
+
 int main(void)
 {
   lcd_init();
@@ -103,7 +124,6 @@ int main(void)
   printf("Started!\n");
 
   // turn off led and 7-seg
-  IOWR(BUZZ_BASE, 0, 0x00);
   IOWR(HEX2_BASE, 0, 0xFF);
   IOWR(HEX1_BASE, 0, 0xFF);
   IOWR(HEX0_BASE, 0, 0xFF);
@@ -119,6 +139,7 @@ int main(void)
       alarm_counter = 0;
       printf("Alarm stopped via Button\n");
       uart_send_string("A0");
+      IOWR(BUZZ_BASE, 0, 0);
       IOWR(LED_BASE, 0, 0);
     }
     else if (IORD(BUTTON_BASE, 0) == 13 && mode == RUNNING)
@@ -140,7 +161,8 @@ int main(void)
       uart_send_string("Set alarm mode activated");
     }
 
-    if (is_alarm(&current_time, &alarm_time)) {
+    if (is_alarm(&current_time, &alarm_time))
+    {
       alarm_counter = 1000;
       uart_send_string("A1");
       IOWR(LED_BASE, 0, 1);
@@ -155,12 +177,12 @@ int main(void)
       if (buffer[0] == 'S') // stop alarm command
       {
         alarm_counter = 0;
-        IOWR(BUZZ_BASE, 0, 0);
+        IOWR(BUZZ_BASE, 0, 1);
         IOWR(LED_BASE, 0, 0);
         uart_send_string("A0");
         printf("Alarm stopped via UART.\n");
       }
-       else if (buffer[0] == 'T') // set time command
+      else if (buffer[0] == 'T') // set time command
       {
         mode = SET_TIME;
         Date new_time;
@@ -218,6 +240,19 @@ int main(void)
         mode = RUNNING;
       }
     }
+
+    byte pattern[] = {
+        B10000001,
+        B01000010,
+        B00100100,
+        B00011000,
+        B00011000,
+        B00100100,
+        B01000010,
+        B10000001};
+
+    for (int i = 0; i < 8; i++)
+      sendData(i + 1, pattern[i]); // i + 1 vì thanh ghi Digit bắt đầu từ 0x01
   }
 
   return 0;

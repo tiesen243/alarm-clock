@@ -23,12 +23,13 @@ module fpga(
 	  .lcd_rs_external_connection_export   (LCD_RS),
 	  .lcd_d_external_connection_export    (LCD_DATA),
 
-	  .button_external_connection_export   (KEY[3:0]),
+	  .button_external_connection_export   (GPIO[3:0]),
 	  .switch_external_connection_export   (SW[6:0]),
 
-	  .button_col_external_connection_export (GPIO[3:0]),
-     .button_row_external_connection_export (GPIO[7:4]),
-
+     .matrix_led_din_external_connection_export (GPIO[4]),
+	  .matrix_led_cs_external_connection_export  (GPIO[5]),
+	  .matrix_led_clk_external_connection_export (GPIO[6]),
+	  
 	  .buzz_external_connection_export     (GPIO[8]),
 	  .led_external_connection_export      (GPIO[9]),
 	  .hex0_external_connection_export     (HEX0),
