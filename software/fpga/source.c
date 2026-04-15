@@ -10,6 +10,7 @@
 #include <stdio.h>
 #include <io.h>
 #include <string.h>
+#include <stdint.h>
 
 #include <system.h>
 #include "include/datetime.h"
@@ -29,20 +30,16 @@ static Date current_time = {25, 3, 2026, 18, 0, 0},
 static enum MODE mode = RUNNING;
 static int alarm_counter = 0, buzz_state = 0;
 static char buffer[100];
-int count = 0, count_2 = 0;
+int count = 0, count_2 = 0, i;
 
 // const int DIN_PIN = MATRIX_LED_DIN_BASE
 // const int CS_PIN = MATRIX_LED_CS_BASE
 // const int CLK_PIN = MATRIX_LED_CLK_BASE
 
-// Các địa chỉ thanh ghi quan trọng của MAX7219
-const byte REG_NOOP = 0x00;
-const byte REG_DIGIT0 = 0x01; // Tương ứng hàng 1
-const byte REG_DECODEMODE = 0x09;
-const byte REG_INTENSITY = 0x0A;
-const byte REG_SCANLIMIT = 0x0B;
-const byte REG_SHUTDOWN = 0x0C;
-const byte REG_DISPLAYTEST = 0x0F;
+const uint8_t REG_DECODEMODE = 0x09;
+const uint8_t REG_INTENSITY = 0x0A;
+const uint8_t REG_SCANLIMIT = 0x0B;
+const uint8_t REG_SHUTDOWN = 0x0C;
 
 const int HEX_7SEG[16] = {
     0x40, // 0
@@ -104,12 +101,12 @@ void Timer_IQR_Handler(void *isr_context)
   timer_clear_timeout();
 }
 
-void send_matrix_led(byte address, byte data)
+void send_matrix_led(uint8_t address, uint8_t data)
 {
-  IOWR(MATRIX_LED_BASE, 0, 0);
-  IOWR(MATRIX_LED_BASE, 0, address);
-  IOWR(MATRIX_LED_BASE, 0, data);
-  IOWR(MATRIX_LED_BASE, 0, 1);
+  IOWR(MATRIX_LED_CS_BASE, 0, 0);        // CS low
+  IOWR(MATRIX_LED_DIN_BASE, 0, address); // Gửi địa chỉ
+  IOWR(MATRIX_LED_CLK_BASE, 0, 1);       // Clock pulse
+  IOWR(MATRIX_LED_CLK_BASE, 0, 0);
 }
 
 int main(void)
@@ -241,18 +238,19 @@ int main(void)
       }
     }
 
-    byte pattern[] = {
-        B10000001,
-        B01000010,
-        B00100100,
-        B00011000,
-        B00011000,
-        B00100100,
-        B01000010,
-        B10000001};
+    uint8_t box[] = {
+        0x00, // 00000000
+        0x00, // 00000000
+        0x3C, // 00111100
+        0x3C, // 00111100
+        0x3C, // 00111100
+        0x3C, // 00111100
+        0x00, // 00000000
+        0x00  // 00000000
+    };
 
-    for (int i = 0; i < 8; i++)
-      sendData(i + 1, pattern[i]); // i + 1 vì thanh ghi Digit bắt đầu từ 0x01
+    for (i = 0; i < 8; i++)
+      send_matrix_led((uint8_t)(i + 1), box[i]);
   }
 
   return 0;
