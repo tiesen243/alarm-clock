@@ -59,6 +59,47 @@ const int HEX_7SEG[16] = {
 static void run_set_datetime(Date *target, const char *done_label);
 static int parse_fixed_digits(const char *s, int len);
 static int parse_uart_time_command(const char *cmd, Date *out);
+void send_matrix_led(uint8_t address, uint8_t data);
+
+static void update_matrix_dm_scroll(void)
+{
+  static int scroll_pos = -12;
+  static int tick_divider = 0;
+  static const char dm_pattern[8][13] = {
+      "011100100010",
+      "010010110110",
+      "010010101010",
+      "010010101010",
+      "010010100010",
+      "010010100010",
+      "011100100010",
+      "000000000000"};
+  int row, col;
+
+  tick_divider++;
+  if (tick_divider < 8)
+    return;
+  tick_divider = 0;
+
+  for (row = 0; row < 8; row++)
+  {
+    uint8_t row_data = 0;
+
+    for (col = 0; col < 8; col++)
+    {
+      int text_col = col - scroll_pos;
+
+      if (text_col >= 0 && text_col < 12 && dm_pattern[row][text_col] == '1')
+        row_data |= (uint8_t)(1u << (7 - col));
+    }
+
+    send_matrix_led((uint8_t)(row + 1), row_data);
+  }
+
+  scroll_pos++;
+  if (scroll_pos > 8)
+    scroll_pos = -12;
+}
 
 void Timer_IQR_Handler(void *isr_context)
 {
@@ -94,15 +135,35 @@ void Timer_IQR_Handler(void *isr_context)
     IOWR(BUZZ_BASE, 0, 0);
   }
 
+  update_matrix_dm_scroll();
+
   timer_clear_timeout();
 }
 
 void send_matrix_led(uint8_t address, uint8_t data)
 {
-  IOWR(MATRIX_LED_CS_BASE, 0, 0);        // CS low
-  IOWR(MATRIX_LED_DIN_BASE, 0, address); // Gửi địa chỉ
-  IOWR(MATRIX_LED_CLK_BASE, 0, 1);       // Clock pulse
-  IOWR(MATRIX_LED_CLK_BASE, 0, 0);
+  uint8_t bit;
+
+  // MAX7219 nhận 16 bit: 8 bit address, sau đó 8 bit data (MSB trước)
+  IOWR(MATRIX_LED_CS_BASE, 0, 0);
+
+  for (bit = 0; bit < 8; bit++)
+  {
+    IOWR(MATRIX_LED_DIN_BASE, 0, (address & 0x80) ? 1 : 0);
+    IOWR(MATRIX_LED_CLK_BASE, 0, 1);
+    IOWR(MATRIX_LED_CLK_BASE, 0, 0);
+    address <<= 1;
+  }
+
+  for (bit = 0; bit < 8; bit++)
+  {
+    IOWR(MATRIX_LED_DIN_BASE, 0, (data & 0x80) ? 1 : 0);
+    IOWR(MATRIX_LED_CLK_BASE, 0, 1);
+    IOWR(MATRIX_LED_CLK_BASE, 0, 0);
+    data <<= 1;
+  }
+
+  IOWR(MATRIX_LED_CS_BASE, 0, 1);
 }
 
 int main(void)
@@ -243,21 +304,6 @@ int main(void)
       }
     }
 
-    uint8_t box[] = {
-        0x00, // 00000000
-        0x00, // 00000000
-        0x3C, // 00111100
-        0x3C, // 00111100
-        0x3C, // 00111100
-        0x3C, // 00111100
-        0x00, // 00000000
-        0x00  // 00000000
-    };
-
-    for (i = 0; i < 8; i++)
-    {
-      send_matrix_led((uint8_t)(i + 1), box[i]);
-    }
   }
 
   return 0;
