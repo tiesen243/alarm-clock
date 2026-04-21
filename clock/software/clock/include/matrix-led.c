@@ -57,7 +57,7 @@ int build_bitmap(const char *str, int *bitmap) {
   for (p = str; *p != '\0'; p++) {
     unsigned char c = (unsigned char)*p;
 
-    if (c < 0 || c > 255 || FONT[c][0] == 0)
+    if (FONT[c][0] == 0)
       continue;
 
     int width = FONT[c][0];
