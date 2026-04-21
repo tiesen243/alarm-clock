@@ -216,7 +216,7 @@ void send_matrix_led(uint8_t address, uint8_t data)
 {
   uint8_t bit;
 
-  // MAX7219 nhận 16 bit: 8 bit address, sau đó 8 bit data (MSB trước)
+  // MAX7219 nháº­n 16 bit: 8 bit address, sau Ä‘Ã³ 8 bit data (MSB trÆ°á»›c)
   IOWR(MATRIX_LED_CS_BASE, 0, 0);
 
   for (bit = 0; bit < 8; bit++)
@@ -254,12 +254,12 @@ int main(void)
   IOWR(HEX1_BASE, 0, 0xFF);
   IOWR(HEX0_BASE, 0, 0xFF);
 
-  send_matrix_led(REG_SCANLIMIT, 0x07);  // Sử dụng đủ 8 hàng
-  send_matrix_led(REG_DECODEMODE, 0x00); // Ma trận LED (không giải mã số)
-  send_matrix_led(REG_INTENSITY, 0x03);  // Độ sáng thấp (0-15)
-  send_matrix_led(REG_SHUTDOWN, 0x01);   // Bật IC
+  send_matrix_led(REG_SCANLIMIT, 0x07);  // Sá»­ dá»¥ng Ä‘á»§ 8 hÃ ng
+  send_matrix_led(REG_DECODEMODE, 0x00); // Ma tráº­n LED (khÃ´ng giáº£i mÃ£ sá»‘)
+  send_matrix_led(REG_INTENSITY, 0x03);  // Ä�á»™ sÃ¡ng tháº¥p (0-15)
+  send_matrix_led(REG_SHUTDOWN, 0x01);   // Báº­t IC
 
-  // Xóa màn hình bằng vòng lặp int
+  // XÃ³a mÃ n hÃ¬nh báº±ng vÃ²ng láº·p int
   for (i = 1; i <= 8; i++)
     send_matrix_led((uint8_t)i, 0x00);
 
