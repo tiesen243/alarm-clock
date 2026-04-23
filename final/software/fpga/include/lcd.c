@@ -94,27 +94,16 @@ void lcd_show_datetime(const Date *date) {
   if (date->day != lastDate.day) {
     lcd_set_cursor(0, 0);
     lcd_write_2digits(date->day);
-
-    IOWR(HEX7_BASE, 0, HEX_7SEG[date->day / 10]);
-    IOWR(HEX6_BASE, 0, HEX_7SEG[date->day % 10]);
   }
 
   if (date->month != lastDate.month) {
     lcd_set_cursor(0, 3);
     lcd_write_2digits(date->month);
-
-    IOWR(HEX5_BASE, 0, HEX_7SEG[date->month / 10]);
-    IOWR(HEX4_BASE, 0, HEX_7SEG[date->month % 10]);
   }
 
   if (date->year != lastDate.year) {
     lcd_set_cursor(0, 6);
     lcd_write_4digits(date->year);
-
-    IOWR(HEX3_BASE, 0, HEX_7SEG[(date->year / 1000) % 10]);
-    IOWR(HEX2_BASE, 0, HEX_7SEG[(date->year / 100) % 10]);
-    IOWR(HEX1_BASE, 0, HEX_7SEG[(date->year / 10) % 10]);
-    IOWR(HEX0_BASE, 0, HEX_7SEG[date->year % 10]);
   }
 
   if (date->hour != lastDate.hour) {

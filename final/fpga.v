@@ -8,7 +8,7 @@ module fpga(
 	 output UART_TXD, LCD_ON, LCD_BLON, LCD_EN, LCD_RW, LCD_RS,
 	 output [7:0] LCD_DATA,
 	 output [6:0] HEX0, HEX1, HEX2, HEX3, HEX4, HEX5, HEX6, HEX7,
-	 output [0:0] LEDR
+	 output [17:0] LEDR
 );
 	system u0(
 	  .clk_clk                             (CLOCK_50),
@@ -31,7 +31,7 @@ module fpga(
 	  .matrix_led_clk_external_connection_export (GPIO[6]),
 	  
 	  .buzz_external_connection_export     (GPIO[8]),
-	  .led_external_connection_export      (GPIO[9]),
+	  .led_external_connection_export      (LEDR),
 	  
 	  .hex0_external_connection_export     (HEX0),
      .hex1_external_connection_export     (HEX1),

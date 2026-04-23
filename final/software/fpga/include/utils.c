@@ -7,7 +7,6 @@
 #include "system.h"
 
 #include "datetime.h"
-#include "lcd.h"
 #include "uart.h"
 
 int state = 0;
@@ -98,9 +97,14 @@ int run_set_datetime(Date *target, const char *done_label) {
 
   switch_data = normalize_switch_value(*target, switch_data, state);
 
-  IOWR(HEX2_BASE, 0, 0xFF);
-  IOWR(HEX1_BASE, 0, HEX_7SEG[(switch_data / 10) % 10]);
   IOWR(HEX0_BASE, 0, HEX_7SEG[switch_data % 10]);
+  IOWR(HEX1_BASE, 0, HEX_7SEG[(switch_data / 10) % 10]);
+  IOWR(HEX2_BASE, 0, 0xFF);
+  IOWR(HEX3_BASE, 0, 0xFF);
+  IOWR(HEX4_BASE, 0, 0xFF);
+  IOWR(HEX5_BASE, 0, 0xFF);
+  IOWR(HEX6_BASE, 0, 0xFF);
+  IOWR(HEX7_BASE, 0, 0xFF);
 
   if (IORD(BUTTON_BASE, 0) == 7) {
     while (IORD(BUTTON_BASE, 0) == 7)
@@ -149,7 +153,6 @@ int run_set_datetime(Date *target, const char *done_label) {
     }
 
     state = (state + 1) & 7;
-    lcd_show_datetime(target);
     return (state > 6);
   }
 
@@ -205,4 +208,30 @@ int parse_uart_time_command(const char *cmd, Date *out) {
   out->second = second;
 
   return 1;
+}
+
+void hex_show_time(Date *date, int is_show_time) {
+  if (is_show_time == 0) {
+    IOWR(HEX7_BASE, 0, HEX_7SEG[date->day / 10]);
+    IOWR(HEX6_BASE, 0, HEX_7SEG[date->day % 10]);
+
+    IOWR(HEX5_BASE, 0, HEX_7SEG[date->month / 10]);
+    IOWR(HEX4_BASE, 0, HEX_7SEG[date->month % 10]);
+
+    IOWR(HEX3_BASE, 0, HEX_7SEG[(date->year / 1000) % 10]);
+    IOWR(HEX2_BASE, 0, HEX_7SEG[(date->year / 100) % 10]);
+    IOWR(HEX1_BASE, 0, HEX_7SEG[(date->year / 10) % 10]);
+    IOWR(HEX0_BASE, 0, HEX_7SEG[date->year % 10]);
+  } else {
+    IOWR(HEX7_BASE, 0, HEX_7SEG[date->hour / 10]);
+    IOWR(HEX6_BASE, 0, HEX_7SEG[date->hour % 10]);
+
+    IOWR(HEX5_BASE, 0, HEX_7SEG[date->minute / 10]);
+    IOWR(HEX4_BASE, 0, HEX_7SEG[date->minute % 10]);
+
+    IOWR(HEX3_BASE, 0, HEX_7SEG[(date->second / 10) % 10]);
+    IOWR(HEX2_BASE, 0, HEX_7SEG[date->second % 10]);
+    IOWR(HEX1_BASE, 0, 0xFF);
+    IOWR(HEX0_BASE, 0, 0xFF);
+  }
 }
