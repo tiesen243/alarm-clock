@@ -2,8 +2,8 @@
 <sch:Settings xmlns:sch="http://www.altera.com/embeddedsw/bsp/schema">
         <BspType>hal</BspType>
         <BspVersion>default</BspVersion>
-        <BspGeneratedTimeStamp>Apr 23, 2026 6:56:13 AM</BspGeneratedTimeStamp>
-        <BspGeneratedUnixTimeStamp>1776902173014</BspGeneratedUnixTimeStamp>
+        <BspGeneratedTimeStamp>Apr 23, 2026 7:39:27 PM</BspGeneratedTimeStamp>
+        <BspGeneratedUnixTimeStamp>1776947967612</BspGeneratedUnixTimeStamp>
         <BspGeneratedLocation>D:\422001423701-soc\final\software\fpga_bsp</BspGeneratedLocation>
         <BspSettingsFile>settings.bsp</BspSettingsFile>
         <SopcDesignFile>D:\422001423701-soc\final\system.sopcinfo</SopcDesignFile>
@@ -905,104 +905,134 @@
                 <attributes>printable</attributes>
         </MemoryMap>
         <MemoryMap>
-                <slaveDescriptor>matrix_led_clk</slaveDescriptor>
+                <slaveDescriptor>hex7</slaveDescriptor>
                 <addressRange>0x00011040 - 0x0001104F</addressRange>
                 <addressSpan>16</addressSpan>
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
-                <slaveDescriptor>matrix_led_cs</slaveDescriptor>
+                <slaveDescriptor>hex6</slaveDescriptor>
                 <addressRange>0x00011050 - 0x0001105F</addressRange>
                 <addressSpan>16</addressSpan>
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
-                <slaveDescriptor>led</slaveDescriptor>
+                <slaveDescriptor>hex5</slaveDescriptor>
                 <addressRange>0x00011060 - 0x0001106F</addressRange>
                 <addressSpan>16</addressSpan>
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
-                <slaveDescriptor>hex1</slaveDescriptor>
+                <slaveDescriptor>hex4</slaveDescriptor>
                 <addressRange>0x00011070 - 0x0001107F</addressRange>
                 <addressSpan>16</addressSpan>
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
-                <slaveDescriptor>hex0</slaveDescriptor>
+                <slaveDescriptor>hex3</slaveDescriptor>
                 <addressRange>0x00011080 - 0x0001108F</addressRange>
                 <addressSpan>16</addressSpan>
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
-                <slaveDescriptor>hex2</slaveDescriptor>
+                <slaveDescriptor>matrix_led_clk</slaveDescriptor>
                 <addressRange>0x00011090 - 0x0001109F</addressRange>
                 <addressSpan>16</addressSpan>
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
-                <slaveDescriptor>matrix_led_din</slaveDescriptor>
+                <slaveDescriptor>matrix_led_cs</slaveDescriptor>
                 <addressRange>0x000110A0 - 0x000110AF</addressRange>
                 <addressSpan>16</addressSpan>
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
-                <slaveDescriptor>switch</slaveDescriptor>
+                <slaveDescriptor>led</slaveDescriptor>
                 <addressRange>0x000110B0 - 0x000110BF</addressRange>
                 <addressSpan>16</addressSpan>
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
-                <slaveDescriptor>lcd_en</slaveDescriptor>
+                <slaveDescriptor>hex1</slaveDescriptor>
                 <addressRange>0x000110C0 - 0x000110CF</addressRange>
                 <addressSpan>16</addressSpan>
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
-                <slaveDescriptor>buzz</slaveDescriptor>
+                <slaveDescriptor>hex0</slaveDescriptor>
                 <addressRange>0x000110D0 - 0x000110DF</addressRange>
                 <addressSpan>16</addressSpan>
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
-                <slaveDescriptor>lcd_d</slaveDescriptor>
+                <slaveDescriptor>hex2</slaveDescriptor>
                 <addressRange>0x000110E0 - 0x000110EF</addressRange>
                 <addressSpan>16</addressSpan>
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
-                <slaveDescriptor>lcd_rs</slaveDescriptor>
+                <slaveDescriptor>matrix_led_din</slaveDescriptor>
                 <addressRange>0x000110F0 - 0x000110FF</addressRange>
                 <addressSpan>16</addressSpan>
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
-                <slaveDescriptor>lcd_rw</slaveDescriptor>
+                <slaveDescriptor>switch</slaveDescriptor>
                 <addressRange>0x00011100 - 0x0001110F</addressRange>
                 <addressSpan>16</addressSpan>
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
-                <slaveDescriptor>lcd_blon</slaveDescriptor>
+                <slaveDescriptor>lcd_en</slaveDescriptor>
                 <addressRange>0x00011110 - 0x0001111F</addressRange>
                 <addressSpan>16</addressSpan>
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
-                <slaveDescriptor>lcd_on</slaveDescriptor>
+                <slaveDescriptor>buzz</slaveDescriptor>
                 <addressRange>0x00011120 - 0x0001112F</addressRange>
                 <addressSpan>16</addressSpan>
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
-                <slaveDescriptor>button</slaveDescriptor>
+                <slaveDescriptor>lcd_d</slaveDescriptor>
                 <addressRange>0x00011130 - 0x0001113F</addressRange>
                 <addressSpan>16</addressSpan>
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
+                <slaveDescriptor>lcd_rs</slaveDescriptor>
+                <addressRange>0x00011140 - 0x0001114F</addressRange>
+                <addressSpan>16</addressSpan>
+                <attributes/>
+        </MemoryMap>
+        <MemoryMap>
+                <slaveDescriptor>lcd_rw</slaveDescriptor>
+                <addressRange>0x00011150 - 0x0001115F</addressRange>
+                <addressSpan>16</addressSpan>
+                <attributes/>
+        </MemoryMap>
+        <MemoryMap>
+                <slaveDescriptor>lcd_blon</slaveDescriptor>
+                <addressRange>0x00011160 - 0x0001116F</addressRange>
+                <addressSpan>16</addressSpan>
+                <attributes/>
+        </MemoryMap>
+        <MemoryMap>
+                <slaveDescriptor>lcd_on</slaveDescriptor>
+                <addressRange>0x00011170 - 0x0001117F</addressRange>
+                <addressSpan>16</addressSpan>
+                <attributes/>
+        </MemoryMap>
+        <MemoryMap>
+                <slaveDescriptor>button</slaveDescriptor>
+                <addressRange>0x00011180 - 0x0001118F</addressRange>
+                <addressSpan>16</addressSpan>
+                <attributes/>
+        </MemoryMap>
+        <MemoryMap>
                 <slaveDescriptor>jtag_uart_0</slaveDescriptor>
-                <addressRange>0x00011140 - 0x00011147</addressRange>
+                <addressRange>0x00011190 - 0x00011197</addressRange>
                 <addressSpan>8</addressSpan>
                 <attributes>printable</attributes>
         </MemoryMap>
