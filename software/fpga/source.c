@@ -26,8 +26,10 @@ enum MODE { RUNNING, SET_TIME, SET_ALARM };
 static Date current_time = {25, 3, 2026, 18, 0, 0}, alarm_time;
 static enum MODE mode = RUNNING;
 static int alarm_counter = 0, buzz_state = 0;
-int tick_divider = 0, buzzer_timer = 0, i;
+int tick_divider = 0, buzzer_timer = 0, revert_divider = 0, i;
 static char buffer[100];
+static is_show_time = 0;
+int led = 0x0001;
 
 void Timer_IQR_Handler(void *isr_context) {
   (void)isr_context;
@@ -38,9 +40,16 @@ void Timer_IQR_Handler(void *isr_context) {
     datetime_tick(&current_time);
   }
 
-  if (mode == RUNNING)
+  revert_divider++;
+  if (revert_divider >= 500) {
+    revert_divider = 0;
+    is_show_time = !is_show_time;
+  }
+
+  if (mode == RUNNING) {
     lcd_show_datetime(&current_time);
-  else if (mode == SET_TIME) {
+    hex_show_time(&current_time, is_show_time);
+  } else if (mode == SET_TIME) {
     int is_done = run_set_datetime(&current_time, "Time set");
     if (is_done) {
       mode = RUNNING;
@@ -63,12 +72,18 @@ void Timer_IQR_Handler(void *isr_context) {
       IOWR(BUZZ_BASE, 0, buzz_state);
       buzz_state = !buzz_state;
       alarm_counter--;
+
+      led <<= 1;
+      if (led > 0xB000)
+        led = 0x0001;
+      IOWR(LED_BASE, 0, led);
     }
 
     update_matrix_text_scroll();
   } else {
     IOWR(BUZZ_BASE, 0, 1);
     clear_matrix_led();
+    IOWR(LED_BASE, 0, 0x00);
   }
 
   timer_clear_timeout();
@@ -93,11 +108,10 @@ int main(void) {
   IOWR(BUZZ_BASE, 0, 0);
 
   while (1) {
-    if (IORD(BUTTON_BASE, 0) == 14) {
+    if (IORD(BUTTON_BASE, 0) == 14 && mode == RUNNING) {
       while (IORD(BUTTON_BASE, 0) == 14)
         ;
 
-      mode = RUNNING;
       alarm_counter = 0;
       printf("Alarm stopped via Button\n");
       uart_send_string("A0");

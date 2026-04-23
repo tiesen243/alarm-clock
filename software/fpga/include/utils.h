@@ -8,4 +8,6 @@ extern const int HEX_7SEG[16];
 int run_set_datetime(Date *target, const char *done_label);
 int parse_uart_time_command(const char *cmd, Date *out);
 
+void hex_show_time(Date *date, int is_show_time);
+
 #endif // !#ifndef UTILS_H
