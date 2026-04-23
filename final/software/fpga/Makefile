@@ -147,6 +147,8 @@ C_SRCS += include/lcd.c
 C_SRCS += include/timer_ctrl.c
 C_SRCS += include/uart.c
 C_SRCS += source.c
+C_SRCS += include/matrix_led.c
+C_SRCS += include/utils.c
 CXX_SRCS :=
 ASM_SRCS :=
 

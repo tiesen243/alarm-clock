@@ -1,133 +1,142 @@
 #include "lcd.h"
 #include "datetime.h"
+#include "system.h"
 
 void lcd_delay(int ms) {
   volatile int i = 0;
-  while (i < ms * 10000)
+  while (i < ms * 1000)
     i++;
 }
 
-void lcd_command(struct LCD *lcd, int data) {
-  IOWR_ALTERA_AVALON_PIO_DATA(lcd->rs, 0x00);
-  IOWR_ALTERA_AVALON_PIO_DATA(lcd->rw, 0x00);
-  IOWR_ALTERA_AVALON_PIO_DATA(lcd->data, data & 0xFF);
-  IOWR_ALTERA_AVALON_PIO_DATA(lcd->en, 0x01);
-  lcd_delay(20);
+void lcd_command(int data) {
+  IOWR_ALTERA_AVALON_PIO_DATA(LCD_RS_BASE, 0x00);
+  IOWR_ALTERA_AVALON_PIO_DATA(LCD_RW_BASE, 0x00);
+  IOWR_ALTERA_AVALON_PIO_DATA(LCD_DATA_BASE, data & 0xFF);
+  IOWR_ALTERA_AVALON_PIO_DATA(LCD_EN_BASE, 0x01);
+  lcd_delay(5);
 
-  IOWR_ALTERA_AVALON_PIO_DATA(lcd->en, 0x00);
-  lcd_delay(20);
+  IOWR_ALTERA_AVALON_PIO_DATA(LCD_EN_BASE, 0x00);
+  lcd_delay(5);
 }
 
-void lcd_data(struct LCD *lcd, char data) {
-  IOWR_ALTERA_AVALON_PIO_DATA(lcd->rs, 0x01);
-  IOWR_ALTERA_AVALON_PIO_DATA(lcd->rs, 0x00);
-  IOWR_ALTERA_AVALON_PIO_DATA(lcd->data, data & 0xFF);
-  IOWR_ALTERA_AVALON_PIO_DATA(lcd->en, 0x01);
-  lcd_delay(20);
+void lcd_data(char data) {
+  IOWR_ALTERA_AVALON_PIO_DATA(LCD_RS_BASE, 0x01);
+  IOWR_ALTERA_AVALON_PIO_DATA(LCD_RS_BASE, 0x00);
+  IOWR_ALTERA_AVALON_PIO_DATA(LCD_DATA_BASE, data & 0xFF);
+  IOWR_ALTERA_AVALON_PIO_DATA(LCD_EN_BASE, 0x01);
+  lcd_delay(5);
 
-  IOWR_ALTERA_AVALON_PIO_DATA(lcd->en, 0x00);
-  lcd_delay(20);
+  IOWR_ALTERA_AVALON_PIO_DATA(LCD_EN_BASE, 0x00);
+  lcd_delay(5);
 }
 
-void lcd_string(struct LCD *lcd, const char *str) {
+void lcd_string(const char *str) {
   volatile int i = 0;
 
   while (str[i] != 0) {
-    lcd_data(lcd, str[i]);
+    lcd_data(str[i]);
     i++;
   }
 }
 
-void lcd_init(struct LCD *lcd, int on_pin, int blon_pin, int en_pin, int rw_pin,
-              int rs_pin, int data_pin) {
-  lcd->on = on_pin;
-  lcd->blon = blon_pin;
-  lcd->en = en_pin;
-  lcd->rw = rw_pin;
-  lcd->rs = rs_pin;
-  lcd->data = data_pin;
+void lcd_init(void)
+{
+    lcd_command(0x38);
+    lcd_delay(100);
+    lcd_command(0x0c);
+    lcd_delay(100);
+    lcd_command(0x06);
+    lcd_delay(100);
+    lcd_command(0x01);
 
-  lcd_command(lcd, 0x38);
-  lcd_delay(100);
-  lcd_command(lcd, 0x0C);
-  lcd_delay(100);
-  lcd_command(lcd, 0x06);
-  lcd_delay(100);
-  lcd_command(lcd, 0x01);
-  lcd_delay(100);
 
-  IOWR_ALTERA_AVALON_PIO_DATA(lcd->on, 0x01);
-  IOWR_ALTERA_AVALON_PIO_DATA(lcd->blon, 0x01);
+    IOWR_ALTERA_AVALON_PIO_DATA(LCD_ON_BASE, 0x01);
+    IOWR_ALTERA_AVALON_PIO_DATA(LCD_BLON_BASE, 0x01);
+}
+static struct DateTime lastDate;
+int hasLastDate = 0;
+
+static void lcd_set_cursor(int row, int col)
+{
+    int address = (row == 0 ? 0x00 : 0x40) + col;
+    lcd_command(0x80 | address);
 }
 
-static struct DateTime last_time;
-int has_last_time = 0;
-
-void lcd_2digit(struct LCD *lcd, int value) {
-  lcd_data(lcd, '0' + (value / 10) % 10);
-  lcd_data(lcd, '0' + value % 10);
+static void lcd_write_2digits(int value)
+{
+    lcd_data(((value / 10) % 10) + '0');
+    lcd_data((value % 10) + '0');
 }
 
-void lcd_4digit(struct LCD *lcd, int value) {
-  lcd_data(lcd, '0' + (value / 1000) % 10);
-  lcd_data(lcd, '0' + (value / 100) % 10);
-  lcd_data(lcd, '0' + (value / 10) % 10);
-  lcd_data(lcd, '0' + value % 10);
+static void lcd_write_4digits(int value)
+{
+    lcd_data((value / 1000) + '0');
+    lcd_data(((value / 100) % 10) + '0');
+    lcd_data(((value / 10) % 10) + '0');
+    lcd_data((value % 10) + '0');
 }
 
-void lcd_show_time(struct LCD *lcd, struct DateTime *dt) {
-  if (!dt)
-    return;
+void lcd_show_time(struct DateTime *date)
+{
+    if (date == 0)
+        return;
 
-  if (!has_last_time) {
-    lcd_command(lcd, 0x02);
-    lcd_2digit(lcd, dt->day);
-    lcd_data(lcd, '/');
-    lcd_2digit(lcd, dt->month);
-    lcd_data(lcd, '/');
-    lcd_4digit(lcd, dt->year);
+    if (!hasLastDate)
+    {
+        lcd_command(0x02);
+        lcd_write_2digits(date->day);
+        lcd_data('/');
+        lcd_write_2digits(date->month);
+        lcd_data('/');
+        lcd_write_4digits(date->year);
 
-    lcd_command(lcd, 0xC0);
-    lcd_2digit(lcd, dt->hour);
-    lcd_data(lcd, ':');
-    lcd_2digit(lcd, dt->minute);
-    lcd_data(lcd, ':');
-    lcd_2digit(lcd, dt->second);
+        lcd_command(0xc0);
+        lcd_write_2digits(date->hour);
+        lcd_data(':');
+        lcd_write_2digits(date->minute);
+        lcd_data(':');
+        lcd_write_2digits(date->second);
 
-    has_last_time = 1;
-    last_time = *dt;
-    return;
-  }
+        lastDate = *date;
+        hasLastDate = 1;
+        return;
+    }
 
-  if (dt->day != last_time.day) {
-    lcd_command(lcd, 0x02);
-    lcd_2digit(lcd, dt->day);
-  }
+    if (date->day != lastDate.day)
+    {
+        lcd_set_cursor(0, 0);
+        lcd_write_2digits(date->day);
+    }
 
-  if (dt->month != last_time.month) {
-    lcd_command(lcd, 0x05);
-    lcd_2digit(lcd, dt->month);
-  }
+    if (date->month != lastDate.month)
+    {
+        lcd_set_cursor(0, 3);
+        lcd_write_2digits(date->month);
+    }
 
-  if (dt->year != last_time.year) {
-    lcd_command(lcd, 0x08);
-    lcd_4digit(lcd, dt->year);
-  }
+    if (date->year != lastDate.year)
+    {
+        lcd_set_cursor(0, 6);
+        lcd_write_4digits(date->year);
+    }
 
-  if (dt->hour != last_time.hour) {
-    lcd_command(lcd, 0xC0);
-    lcd_2digit(lcd, dt->hour);
-  }
+    if (date->hour != lastDate.hour)
+    {
+        lcd_set_cursor(1, 0);
+        lcd_write_2digits(date->hour);
+    }
 
-  if (dt->minute != last_time.minute) {
-    lcd_command(lcd, 0xC3);
-    lcd_2digit(lcd, dt->minute);
-  }
+    if (date->minute != lastDate.minute)
+    {
+        lcd_set_cursor(1, 3);
+        lcd_write_2digits(date->minute);
+    }
 
-  if (dt->second != last_time.second) {
-    lcd_command(lcd, 0xC6);
-    lcd_2digit(lcd, dt->second);
-  }
+    if (date->second != lastDate.second)
+    {
+        lcd_set_cursor(1, 6);
+        lcd_write_2digits(date->second);
+    }
 
-  last_time = *dt;
+    lastDate = *date;
 }

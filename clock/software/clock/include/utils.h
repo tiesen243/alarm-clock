@@ -3,8 +3,7 @@
 
 #include "datetime.h"
 
-int set_datetime(struct DateTime *target, const char *label, int hex_0_pin,
-                 int hex_1_pin, int button_pin, int switch_pin);
+int set_datetime(struct DateTime *target, const char *label);
 
 int is_alarm(struct DateTime *current, struct DateTime *alarm);
 

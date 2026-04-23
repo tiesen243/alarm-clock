@@ -4,6 +4,7 @@
 #include "io.h"
 
 #include "datetime.h"
+#include "system.h"
 #include "utils.h"
 
 const int HEX_7SEG[16] = {
@@ -60,20 +61,19 @@ static int normalize_switch_value(struct DateTime *current_time,
 
 static int field_state = 0;
 
-int set_datetime(struct DateTime *target, const char *label, int hex_0_pin,
-                 int hex_1_pin, int button_pin, int switch_pin) {
-  int switch_data = IORD(switch_pin, 0);
+int set_datetime(struct DateTime *target, const char *label) {
+  int switch_data = IORD(SWITCH_BASE, 0);
 
   if (switch_data == 0)
     return 0;
 
   switch_data = normalize_switch_value(target, switch_data, field_state);
 
-  IOWR(hex_1_pin, 0, HEX_7SEG[(switch_data / 10) % 10]);
-  IOWR(hex_0_pin, 0, HEX_7SEG[switch_data % 10]);
+  IOWR(HEX_1_BASE, 0, HEX_7SEG[(switch_data / 10) % 10]);
+  IOWR(HEX_0_BASE, 0, HEX_7SEG[switch_data % 10]);
 
-  if (IORD(button_pin, 0) == 7) {
-    while (IORD(button_pin, 0) == 7)
+  if (IORD(BUTTON_BASE, 0) == 7) {
+    while (IORD(BUTTON_BASE, 0) == 7)
       ;
 
     switch (field_state) {
@@ -106,8 +106,8 @@ int set_datetime(struct DateTime *target, const char *label, int hex_0_pin,
              target->month, target->year, target->hour, target->minute,
              target->second);
 
-      IOWR(hex_0_pin, 0, 0xFF);
-      IOWR(hex_1_pin, 0, 0xFF);
+      IOWR(HEX_0_BASE, 0, 0xFF);
+      IOWR(HEX_1_BASE, 0, 0xFF);
       break;
     }
   }

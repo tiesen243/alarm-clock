@@ -1,4 +1,5 @@
 #include "io.h"
+#include "system.h"
 
 #include "matrix-led.h"
 
@@ -16,39 +17,35 @@ const int FONT[256][6] = {
     [' '] = {3, 0x00, 0x00, 0x00},
 };
 
-void matrix_led_init(struct MatrixLed *led, int din_pin, int cs_pin,
-                     int clk_pin) {
-  led->din_pin = din_pin;
-  led->cs_pin = cs_pin;
-  led->clk_pin = clk_pin;
+void matrix_led_init() {
 
-  IOWR(led->clk_pin, 0, 0);
-  IOWR(led->cs_pin, 0, 1);
+  IOWR(MATRIX_LED_CLK_BASE, 0, 0);
+  IOWR(MATRIX_LED_CLK_BASE, 0, 1);
 
-  matrix_led_write_reg(led, REG_DISPLAY_TEST, 0x00);
-  matrix_led_write_reg(led, REG_SHUTDOWN, 0x01);
-  matrix_led_write_reg(led, REG_DECODE_MODE, 0x00);
-  matrix_led_write_reg(led, REG_SCAN_LIMIT, 0x07);
-  matrix_led_write_reg(led, REG_INTENSITY, 0x02);
+  matrix_led_write_reg(REG_DISPLAY_TEST, 0x00);
+  matrix_led_write_reg(REG_SHUTDOWN, 0x01);
+  matrix_led_write_reg(REG_DECODE_MODE, 0x00);
+  matrix_led_write_reg(REG_SCAN_LIMIT, 0x07);
+  matrix_led_write_reg(REG_INTENSITY, 0x02);
 
   for (i = 1; i <= 8; i++)
-    matrix_led_write_reg(led, i, 0x00);
+    matrix_led_write_reg(i, 0x00);
 }
 
-void matrix_led_shift_out(struct MatrixLed *led, int byte) {
+void matrix_led_shift_out(int byte) {
   for (i = 0; i < 8; i++) {
     int bit = (byte >> (7 - i)) & 0x01;
-    IOWR(led->din_pin, 0, bit);
-    IOWR(led->clk_pin, 0, 1);
-    IOWR(led->clk_pin, 0, 0);
+    IOWR(MATRIX_LED_DIN_BASE, 0, bit);
+    IOWR(MATRIX_LED_CLK_BASE, 0, 1);
+    IOWR(MATRIX_LED_CLK_BASE, 0, 0);
   }
 }
 
-void matrix_led_write_reg(struct MatrixLed *led, int reg, int data) {
-  IOWR(led->cs_pin, 0, 0);
-  matrix_led_shift_out(led, reg);
-  matrix_led_shift_out(led, data);
-  IOWR(led->cs_pin, 0, 1);
+void matrix_led_write_reg(int reg, int data) {
+  IOWR(MATRIX_LED_CS_BASE, 0, 0);
+  matrix_led_shift_out(reg);
+  matrix_led_shift_out(data);
+  IOWR(MATRIX_LED_CS_BASE, 0, 1);
 }
 
 int build_bitmap(const char *str, int *bitmap) {
@@ -72,7 +69,7 @@ int build_bitmap(const char *str, int *bitmap) {
 
 static int display_buffer[] = {0, 0, 0, 0, 0, 0, 0, 0}, scroll_idx = 0;
 
-void matrix_led_update_scroll(struct MatrixLed *led, const char *str) {
+void matrix_led_update_scroll(const char *str) {
   int full_bitmap[256];
   int bitmap_length = build_bitmap(str, full_bitmap);
 
@@ -84,7 +81,7 @@ void matrix_led_update_scroll(struct MatrixLed *led, const char *str) {
   }
 
   for (i = 0; i < 8; i++)
-    matrix_led_write_reg(led, REG_DIGIT0 + i, display_buffer[i]);
+    matrix_led_write_reg(REG_DIGIT0 + i, display_buffer[i]);
 
   scroll_idx = (scroll_idx + 1) % bitmap_length;
 }

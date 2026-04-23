@@ -4,8 +4,8 @@
 #include "altera_avalon_timer_regs.h"
 #include "system.h"
 
-void timer_init(int pin, int period_ms);
+void timer_init(int period_ms);
 
-void timer_cleanup(int pin);
+void timer_cleanup();
 
 #endif // !TIMER_H
