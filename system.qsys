@@ -180,51 +180,11 @@
          type = "int";
       }
    }
-   element lcd_en.s1
+   element uart_0.s1
    {
       datum baseAddress
       {
-         value = "69824";
-         type = "String";
-      }
-   }
-   element matrix_led_clk.s1
-   {
-      datum baseAddress
-      {
-         value = "69696";
-         type = "String";
-      }
-   }
-   element matrix_led_cs.s1
-   {
-      datum baseAddress
-      {
-         value = "69712";
-         type = "String";
-      }
-   }
-   element led.s1
-   {
-      datum baseAddress
-      {
-         value = "69728";
-         type = "String";
-      }
-   }
-   element lcd_blon.s1
-   {
-      datum baseAddress
-      {
-         value = "69904";
-         type = "String";
-      }
-   }
-   element button.s1
-   {
-      datum baseAddress
-      {
-         value = "69936";
+         value = "69664";
          type = "String";
       }
    }
@@ -236,59 +196,19 @@
          type = "String";
       }
    }
+   element hex2.s1
+   {
+      datum baseAddress
+      {
+         value = "69776";
+         type = "String";
+      }
+   }
    element lcd_rs.s1
    {
       datum baseAddress
       {
          value = "69872";
-         type = "String";
-      }
-   }
-   element hex1.s1
-   {
-      datum baseAddress
-      {
-         value = "69744";
-         type = "String";
-      }
-   }
-   element timer.s1
-   {
-      datum baseAddress
-      {
-         value = "69632";
-         type = "String";
-      }
-   }
-   element onchip_memory2_0.s1
-   {
-      datum baseAddress
-      {
-         value = "32768";
-         type = "String";
-      }
-   }
-   element lcd_d.s1
-   {
-      datum baseAddress
-      {
-         value = "69856";
-         type = "String";
-      }
-   }
-   element lcd_on.s1
-   {
-      datum baseAddress
-      {
-         value = "69920";
-         type = "String";
-      }
-   }
-   element uart_0.s1
-   {
-      datum baseAddress
-      {
-         value = "69664";
          type = "String";
       }
    }
@@ -300,19 +220,11 @@
          type = "String";
       }
    }
-   element matrix_led_din.s1
+   element lcd_en.s1
    {
       datum baseAddress
       {
-         value = "69792";
-         type = "String";
-      }
-   }
-   element hex2.s1
-   {
-      datum baseAddress
-      {
-         value = "69776";
+         value = "69824";
          type = "String";
       }
    }
@@ -324,11 +236,99 @@
          type = "String";
       }
    }
+   element timer.s1
+   {
+      datum baseAddress
+      {
+         value = "69632";
+         type = "String";
+      }
+   }
+   element matrix_led_cs.s1
+   {
+      datum baseAddress
+      {
+         value = "69712";
+         type = "String";
+      }
+   }
+   element lcd_blon.s1
+   {
+      datum baseAddress
+      {
+         value = "69904";
+         type = "String";
+      }
+   }
+   element matrix_led_clk.s1
+   {
+      datum baseAddress
+      {
+         value = "69696";
+         type = "String";
+      }
+   }
+   element onchip_memory2_0.s1
+   {
+      datum baseAddress
+      {
+         value = "32768";
+         type = "String";
+      }
+   }
    element buzz.s1
    {
       datum baseAddress
       {
          value = "69840";
+         type = "String";
+      }
+   }
+   element hex1.s1
+   {
+      datum baseAddress
+      {
+         value = "69744";
+         type = "String";
+      }
+   }
+   element matrix_led_din.s1
+   {
+      datum baseAddress
+      {
+         value = "69792";
+         type = "String";
+      }
+   }
+   element lcd_on.s1
+   {
+      datum baseAddress
+      {
+         value = "69920";
+         type = "String";
+      }
+   }
+   element led.s1
+   {
+      datum baseAddress
+      {
+         value = "69728";
+         type = "String";
+      }
+   }
+   element button.s1
+   {
+      datum baseAddress
+      {
+         value = "69936";
+         type = "String";
+      }
+   }
+   element lcd_d.s1
+   {
+      datum baseAddress
+      {
+         value = "69856";
          type = "String";
       }
    }
@@ -371,7 +371,7 @@
  <parameter name="projectName" value="fpga.qpf" />
  <parameter name="sopcBorderPoints" value="false" />
  <parameter name="systemHash" value="1" />
- <parameter name="timeStamp" value="1776257641367" />
+ <parameter name="timeStamp" value="1776846580171" />
  <parameter name="useTestBenchNamingPattern" value="false" />
  <instanceScript></instanceScript>
  <interface name="clk" internal="clk_0.clk_in" type="clock" dir="end" />
@@ -792,7 +792,7 @@
   <parameter name="resetValue" value="0" />
   <parameter name="simDoTestBenchWiring" value="false" />
   <parameter name="simDrivenValue" value="0" />
-  <parameter name="width" value="1" />
+  <parameter name="width" value="32" />
   <parameter name="clockRate" value="50000000" />
  </module>
  <module
