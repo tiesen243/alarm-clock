@@ -2,6 +2,7 @@
 #include "system.h"
 
 #include "lcd.h"
+#include "utils.h"
 
 static Date lastDate = {0, 0, 0, 0, 0, 0};
 static int hasLastDate = 0;
