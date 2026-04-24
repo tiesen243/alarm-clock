@@ -1,6 +1,5 @@
 module fpga(
     input  CLOCK_50, UART_RXD,
-	 input  [3:0] KEY,
 	 input  [6:0] SW,
 	 
 	 inout  [9:0] GPIO,
