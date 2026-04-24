@@ -29,7 +29,7 @@ static int alarm_counter = 0, buzz_state = 0;
 int tick_divider = 0, buzzer_timer = 0, revert_divider = 0, i;
 static char buffer[100];
 static is_show_time = 0;
-int led = 0x0001;
+int led = 0x00001;
 
 void Timer_IQR_Handler(void *isr_context) {
   (void)isr_context;
@@ -74,7 +74,7 @@ void Timer_IQR_Handler(void *isr_context) {
       alarm_counter--;
 
       led <<= 1;
-      if (led > 0xB000)
+      if (led > 0x20000)
         led = 0x0001;
       IOWR(LED_BASE, 0, led);
     }
