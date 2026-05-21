@@ -1,4 +1,4 @@
-# Đồng hồ
+# Đồng hồ báo thức
 
 ## Tổng quan
 
@@ -79,3 +79,7 @@
 ## Kết luận
 
 Dự án đồng hồ sử dụng FPGA và Nios II đã được hoàn thành với đầy đủ các tính năng như hiển thị thời gian, đặt báo thức, và điều chỉnh thời gian thông qua nút nhấn và phần mềm. Đây là một dự án phức tạp nhưng rất hữu ích để học về thiết kế hệ thống nhúng và lập trình FPGA.
+
+## Bản quyền
+
+Dự án này được cấp phép theo giấy phép [MIT](./LICENSE).
