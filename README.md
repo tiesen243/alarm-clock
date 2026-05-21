@@ -4,6 +4,8 @@
 
 Đồng hồ được viết bằng FPGA (verilog) và Nios II để hiển thị thời gian, đặt báo thức, và có thể điều chỉnh thời gian thông qua nút nhấn và phần mềm.
 
+https://github.com/user-attachments/assets/1646e62f-2c5a-4c9f-a143-6fd53c990d40
+
 ## Tính năng
 
 - Hiển thị thời gian hiện tại (ngày, tháng, năm, giờ, phút, giây).
